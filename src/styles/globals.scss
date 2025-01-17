@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #0a0a0a;
+  --secondary: #141414;
+  --accent: #3498db;
+  --accent-light: #87ceeb;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  
+  /* Spacing System */
+  --space-xs: clamp(1rem, 0.9rem + 0.5vw, 1.5rem);
+  --space-s: clamp(1.5rem, 1.3rem + 1vw, 2.5rem);
+  --space-m: clamp(2rem, 1.8rem + 1.5vw, 3.5rem);
+  --space-l: clamp(3rem, 2.5rem + 2.5vw, 5.5rem);
+  --space-xl: clamp(4rem, 3.5rem + 3.5vw, 7.5rem);
+}
+
+@layer base {
+  html {
+    @apply antialiased scroll-smooth;
+  }
+
+  body {
+    @apply bg-[var(--primary)] text-[var(--text-primary)] overflow-x-hidden;
+    font-feature-settings: "ss01" on, "ss02" on, "cv01" on, "cv03" on;
+  }
+
+  a, button, h1, h2, h3, h4, h5, h6, p, span, div {
+    @apply text-[var(--text-primary)];
+    color: var(--text-primary) !important;
+  }
+}
+
+@layer components {
+  .premium-card {
+    @apply relative bg-[var(--secondary)] backdrop-blur-xl rounded-2xl p-[var(--space-s)] 
+           border border-white/5 transition-all duration-500;
+    
+    &:hover {
+      border-color: rgba(52, 152, 219, 0.2);
+      transform: translateY(-4px);
+    }
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[var(--accent)] to-[var(--accent-light)];
+  }
+
+  .hero-text {
+    @apply text-gradient font-bold tracking-tight;
+  }
+
+  .section-padding {
+    @apply py-[var(--space-xl)] px-[var(--space-s)] md:px-[var(--space-m)];
+  }
+
+  .container-width {
+    @apply max-w-[80rem] mx-auto w-full;
+  }
+
+  .perspective {
+    perspective: 2000px;
+    transform-style: preserve-3d;
+  }
+}
+
+.canvas-container {
+  @apply fixed inset-0 -z-10;
+}
+
+/* Premium Button */
+.btn-premium {
+  @apply relative overflow-hidden rounded-full px-8 py-4 font-medium 
+         bg-[var(--accent)] text-white transition-all duration-300;
+  
+  &:hover {
+    background-color: rgba(52, 152, 219, 0.9);
+    transform: translateY(-2px);
+  }
+}
+
+/* Glass Effect */
+.glass-effect {
+  @apply backdrop-blur-xl border border-white/5 transition-colors duration-300;
+  background-color: rgba(255, 255, 255, 0.03);
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-[var(--primary)];
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--accent);
+  border-radius: 9999px;
+  
+  &:hover {
+    background-color: rgba(52, 152, 219, 0.8);
+  }
+}

@@ -1,0 +1,19 @@
+1:"$Sreact.fragment"
+2:I[9214,["369","static/chunks/369-f504bf6b1533f8f2.js","320","static/chunks/320-9c9caeb8fa80f229.js","177","static/chunks/app/layout-ee5576bca68fad07.js"],"PreloadChunks"]
+3:I[8715,["369","static/chunks/369-f504bf6b1533f8f2.js","320","static/chunks/320-9c9caeb8fa80f229.js","177","static/chunks/app/layout-ee5576bca68fad07.js"],"default"]
+4:I[5244,[],""]
+5:I[3866,[],""]
+6:I[7033,[],"ClientPageRoot"]
+7:I[9809,["369","static/chunks/369-f504bf6b1533f8f2.js","320","static/chunks/320-9c9caeb8fa80f229.js","631","static/chunks/631-0cd6f422604b573a.js","974","static/chunks/app/page-b56245c81f50d86c.js"],"default"]
+a:I[6213,[],"OutletBoundary"]
+c:I[6213,[],"MetadataBoundary"]
+e:I[6213,[],"ViewportBoundary"]
+10:I[4835,[],""]
+:HL["/_next/static/media/a34f9d1faa5f3315-s.p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/css/4a0ab9a31693afcb.css","style"]
+0:{"P":null,"b":"8AUrs0PB1N0na3TQChfcP","p":"","c":["",""],"i":false,"f":[[["",{"children":["__PAGE__",{}]},"$undefined","$undefined",true],["",["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/4a0ab9a31693afcb.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]],["$","html",null,{"lang":"en","className":"dark","children":["$","body",null,{"className":"__className_d65c78 min-h-screen bg-[var(--primary)] text-[var(--text-primary)]","children":[[["$","$L2",null,{"moduleIds":["app/layout.tsx -> @/components/Header"]}],["$","$L3",null,{}]],["$","$L4",null,{"parallelRouterKey":"children","segmentPath":["children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[],[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]]],"forbidden":"$undefined","unauthorized":"$undefined"}]]}]}]]}],{"children":["__PAGE__",["$","$1","c",{"children":[["$","$L6",null,{"Component":"$7","searchParams":{},"params":{},"promises":["$@8","$@9"]}],null,["$","$La",null,{"children":"$Lb"}]]}],{},null,false]},null,false],["$","$1","h",{"children":[null,["$","$1","83PJ4OXkCshMO6rkxzs5K",{"children":[["$","$Lc",null,{"children":"$Ld"}],["$","$Le",null,{"children":"$Lf"}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}]]}],false]],"m":"$undefined","G":["$10","$undefined"],"s":false,"S":true}
+8:{}
+9:{}
+f:[["$","meta","0",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
+d:[["$","meta","0",{"charSet":"utf-8"}],["$","title","1",{"children":"App-Nest - Web Development Excellence"}],["$","meta","2",{"name":"description","content":"Crafting Digital Experiences with Modern Web Development"}]]
+b:null
