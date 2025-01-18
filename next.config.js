@@ -3,9 +3,21 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   transpilePackages: ['three'],
+  env: {
+    MONGODB_URI: process.env.MONGODB_URI,
+    NODE_ENV: process.env.NODE_ENV,
+  },
   webpack: (config) => {
     config.externals = [...(config.externals || []), { canvas: 'canvas' }];
-    config.output = 'export'; // Ensure this line is present for static export
     return config;
+  },
+  // Enable API routes in production
+  rewrites: async () => {
+    return [
+      {
+        source: '/api/:path*',
+        destination: '/api/:path*',
+      },
+    ];
   },
 }

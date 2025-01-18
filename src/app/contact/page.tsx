@@ -28,6 +28,7 @@ export default function Contact() {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -46,21 +47,32 @@ export default function Contact() {
     if (!validateForm()) return;
 
     setStatus('submitting');
+    setErrorMessage('');
+
     try {
+      console.log('Submitting form data:', formData);
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) throw new Error('Failed to submit');
+      console.log('Response status:', response.status);
+      const data = await response.json();
+      console.log('Response data:', data);
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to submit form');
+      }
       
       setStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '' });
       setTimeout(() => setStatus('idle'), 3000);
     } catch (error) {
+      console.error('Form submission error:', error);
       setStatus('error');
-      setTimeout(() => setStatus('idle'), 3000);
+      setErrorMessage(error instanceof Error ? error.message : 'Failed to send message. Please try again.');
+      setTimeout(() => setStatus('idle'), 5000);
     }
   };
 
@@ -166,7 +178,7 @@ export default function Contact() {
 
               {status === 'error' && (
                 <div className="mt-4 p-4 bg-red-500/20 border border-red-500 rounded-lg text-red-500 text-center">
-                  Failed to send message. Please try again.
+                  {errorMessage}
                 </div>
               )}
             </form>

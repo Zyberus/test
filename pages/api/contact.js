@@ -44,11 +44,22 @@ const checkRateLimit = (ip) => {
   return true;
 };
 
+const logError = (error, context = {}) => {
+  console.error('API Error:', {
+    message: error.message,
+    stack: error.stack,
+    ...context
+  });
+};
+
 export default async function handler(req, res) {
   console.log('API Request received:', {
     method: req.method,
-    body: req.body,
-    headers: req.headers
+    url: req.url,
+    headers: {
+      'content-type': req.headers['content-type'],
+      'user-agent': req.headers['user-agent']
+    }
   });
 
   // CORS headers
@@ -65,7 +76,19 @@ export default async function handler(req, res) {
   }
 
   if (req.method !== 'POST') {
-    return res.status(405).json({ success: false, message: 'Method not allowed' });
+    return res.status(405).json({ 
+      success: false, 
+      message: 'Method not allowed. Only POST requests are accepted.' 
+    });
+  }
+
+  // Check MongoDB URI
+  if (!process.env.MONGODB_URI) {
+    logError(new Error('MongoDB URI is not configured'));
+    return res.status(500).json({ 
+      success: false, 
+      message: 'Server configuration error' 
+    });
   }
 
   // Rate limiting
@@ -90,8 +113,8 @@ export default async function handler(req, res) {
   try {
     console.log('Attempting database connection...');
     await dbConnect();
-    console.log('Database connected, creating contact...');
-    
+    console.log('Database connected successfully');
+
     const contactData = {
       name: req.body.name.trim(),
       email: req.body.email.trim().toLowerCase(),
@@ -114,14 +137,24 @@ export default async function handler(req, res) {
       }
     });
   } catch (error) {
-    console.error('Error in contact API:', error);
-    res.status(500).json({ 
+    logError(error, { 
+      body: req.body,
+      mongodbUri: process.env.MONGODB_URI ? 'configured' : 'missing'
+    });
+
+    // Determine if it's a connection error
+    const isConnectionError = error.name === 'MongooseError' || 
+                            error.name === 'MongoNetworkError' ||
+                            error.message.includes('connect');
+
+    res.status(isConnectionError ? 503 : 500).json({ 
       success: false, 
-      message: 'Failed to send message',
-      error: process.env.NODE_ENV === 'development' ? {
-        message: error.message,
-        stack: error.stack
-      } : 'Internal server error'
+      message: isConnectionError 
+        ? 'Unable to connect to database. Please try again later.'
+        : 'Failed to send message. Please try again.',
+      error: process.env.NODE_ENV === 'development' 
+        ? { message: error.message, type: error.name }
+        : undefined
     });
   }
 }
