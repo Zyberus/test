@@ -2,22 +2,33 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  transpilePackages: ['three'],
-  env: {
-    MONGODB_URI: process.env.MONGODB_URI,
-    NODE_ENV: process.env.NODE_ENV,
+  poweredByHeader: false,
+  compress: true,
+  images: {
+    domains: ['images.unsplash.com'], // Add any image domains you're using
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
-  webpack: (config) => {
-    config.externals = [...(config.externals || []), { canvas: 'canvas' }];
-    return config;
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
   },
-  // Enable API routes in production
-  rewrites: async () => {
+  headers: async () => {
     return [
       {
-        source: '/api/:path*',
-        destination: '/api/:path*',
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+        ],
       },
     ];
   },
-}
+};
+
+module.exports = nextConfig;

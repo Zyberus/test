@@ -22,20 +22,26 @@
     "@types/react-dom": "^18.2.18",
     "@types/three": "^0.159.0",
     "autoprefixer": "^10.4.16",
+    "chart.js": "^4.4.7",
+    "cookie": "^1.0.2",
     "dotenv": "^16.4.1",
     "framer-motion": "^10.16.16",
     "gsap": "^3.12.4",
+    "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.5",
     "next": "14.0.4",
     "pixi.js": "^7.3.2",
     "postcss": "^8.4.32",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.3.0",
     "react-dom": "^18.2.0",
     "react-spring": "^9.7.3",
     "sass": "^1.69.5",
     "tailwindcss": "^3.4.0",
     "three": "^0.159.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "ua-parser-js": "^2.0.0"
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^5.9.3"
