@@ -9,17 +9,17 @@ const ParticleBackground = dynamic(() => import('@/components/ParticleBackground
 
 export default function Contact() {
   return (
-    <main className="min-h-screen relative">
+    <main className="min-h-screen relative pt-16">
       <ParticleBackground />
       
-      <div className="content px-4 py-20 max-w-7xl mx-auto">
+      <div className="content px-4 py-10 md:py-20 max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="max-w-3xl mx-auto"
         >
-          <h1 className="text-5xl md:text-7xl font-bold gradient-text text-center mb-12">
+          <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold gradient-text text-center mb-8">
             Get in Touch
           </h1>
 
@@ -27,9 +27,9 @@ export default function Contact() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-secondary/30 backdrop-blur-lg rounded-2xl p-8"
+            className="bg-secondary/30 backdrop-blur-lg rounded-2xl p-6 md:p-8"
           >
-            <form className="space-y-6">
+            <form className="space-y-4 md:space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
                   Name
@@ -37,7 +37,7 @@ export default function Contact() {
                 <input
                   type="text"
                   id="name"
-                  className="w-full px-4 py-3 rounded-lg bg-primary/50 border border-gray-700 text-white focus:ring-2 focus:ring-accent focus:border-transparent outline-none"
+                  className="w-full px-4 py-2 md:py-3 rounded-lg bg-primary/50 border border-gray-700 text-white focus:ring-2 focus:ring-accent focus:border-transparent outline-none"
                   placeholder="Your name"
                 />
               </div>
@@ -49,8 +49,8 @@ export default function Contact() {
                 <input
                   type="email"
                   id="email"
-                  className="w-full px-4 py-3 rounded-lg bg-primary/50 border border-gray-700 text-white focus:ring-2 focus:ring-accent focus:border-transparent outline-none"
-                  placeholder="your@email.com"
+                  className="w-full px-4 py-2 md:py-3 rounded-lg bg-primary/50 border border-gray-700 text-white focus:ring-2 focus:ring-accent focus:border-transparent outline-none"
+                  placeholder="your.email@example.com"
                 />
               </div>
 
@@ -60,19 +60,18 @@ export default function Contact() {
                 </label>
                 <textarea
                   id="message"
-                  rows={6}
-                  className="w-full px-4 py-3 rounded-lg bg-primary/50 border border-gray-700 text-white focus:ring-2 focus:ring-accent focus:border-transparent outline-none resize-none"
-                  placeholder="Your message..."
+                  rows={4}
+                  className="w-full px-4 py-2 md:py-3 rounded-lg bg-primary/50 border border-gray-700 text-white focus:ring-2 focus:ring-accent focus:border-transparent outline-none resize-none"
+                  placeholder="Your message"
                 ></textarea>
               </div>
 
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-full bg-accent text-primary px-8 py-4 rounded-full text-lg font-semibold hover:shadow-lg transition-all"
+              <button
+                type="submit"
+                className="w-full md:w-auto px-8 py-3 bg-accent text-white font-medium rounded-lg hover:bg-accent/90 transition-colors duration-200"
               >
                 Send Message
-              </motion.button>
+              </button>
             </form>
           </motion.div>
 

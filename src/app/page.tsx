@@ -107,11 +107,6 @@ export default function Home() {
                     View Portfolio
                   </motion.button>
                 </Link>
-
-                <section id="portfolio" className="portfolio-section">
-                  <h2>Portfolio</h2>
-                  <p>Welcome to the portfolio section. Showcase your work here.</p>
-                </section>
                 
                 <Link href="/contact" className="group">
                   <motion.button

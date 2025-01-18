@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react'
 const Navigation = () => {
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,6 +76,24 @@ const Navigation = () => {
             >
               <span>Get Started</span>
             </motion.button>
+          </div>
+
+          <div className="md:hidden">
+            <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none">
+              <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
+                <path d="M4 5h16M4 12h16m-7 7h7" />
+              </svg>
+            </button>
+          </div>
+
+          <div className={`w-full ${isOpen ? 'block' : 'hidden'} md:flex md:items-center md:w-auto`}>
+            <div className="text-sm md:flex-grow">
+              {links.map(({ href, label }) => (
+                <Link key={href} href={href} className="block mt-4 md:inline-block md:mt-0 text-white hover:text-gray-400 mr-4">
+                  {label}
+                </Link>
+              ))}
+            </div>
           </div>
 
           <button className="p-2 md:hidden">
