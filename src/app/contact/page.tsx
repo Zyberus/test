@@ -2,12 +2,68 @@
 
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
+import { useState, FormEvent } from 'react'
 
 const ParticleBackground = dynamic(() => import('@/components/ParticleBackground'), {
   ssr: false
 })
 
+interface FormData {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
+
+interface FormErrors {
+  [key: string]: string;
+}
+
 export default function Contact() {
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    if (!formData.email.trim()) newErrors.email = 'Email is required';
+    else if (!/^\S+@\S+\.\S+$/.test(formData.email)) newErrors.email = 'Invalid email format';
+    if (!formData.subject.trim()) newErrors.subject = 'Subject is required';
+    if (!formData.message.trim()) newErrors.message = 'Message is required';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    setStatus('submitting');
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) throw new Error('Failed to submit');
+      
+      setStatus('success');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      setTimeout(() => setStatus('idle'), 3000);
+    } catch (error) {
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 3000);
+    }
+  };
+
   return (
     <main className="min-h-screen relative pt-16">
       <ParticleBackground />
@@ -29,7 +85,7 @@ export default function Contact() {
             transition={{ delay: 0.2 }}
             className="bg-secondary/30 backdrop-blur-lg rounded-2xl p-6 md:p-8"
           >
-            <form className="space-y-4 md:space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
                   Name
@@ -37,9 +93,12 @@ export default function Contact() {
                 <input
                   type="text"
                   id="name"
-                  className="w-full px-4 py-2 md:py-3 rounded-lg bg-primary/50 border border-gray-700 text-white focus:ring-2 focus:ring-accent focus:border-transparent outline-none"
+                  value={formData.name}
+                  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                  className={`w-full px-4 py-2 md:py-3 rounded-lg bg-primary/50 border ${errors.name ? 'border-red-500' : 'border-gray-700'} text-white focus:ring-2 focus:ring-accent focus:border-transparent outline-none`}
                   placeholder="Your name"
                 />
+                {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
               </div>
 
               <div>
@@ -49,9 +108,27 @@ export default function Contact() {
                 <input
                   type="email"
                   id="email"
-                  className="w-full px-4 py-2 md:py-3 rounded-lg bg-primary/50 border border-gray-700 text-white focus:ring-2 focus:ring-accent focus:border-transparent outline-none"
+                  value={formData.email}
+                  onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                  className={`w-full px-4 py-2 md:py-3 rounded-lg bg-primary/50 border ${errors.email ? 'border-red-500' : 'border-gray-700'} text-white focus:ring-2 focus:ring-accent focus:border-transparent outline-none`}
                   placeholder="your.email@example.com"
                 />
+                {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
+              </div>
+
+              <div>
+                <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-2">
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  id="subject"
+                  value={formData.subject}
+                  onChange={(e) => setFormData(prev => ({ ...prev, subject: e.target.value }))}
+                  className={`w-full px-4 py-2 md:py-3 rounded-lg bg-primary/50 border ${errors.subject ? 'border-red-500' : 'border-gray-700'} text-white focus:ring-2 focus:ring-accent focus:border-transparent outline-none`}
+                  placeholder="What's this about?"
+                />
+                {errors.subject && <p className="mt-1 text-sm text-red-500">{errors.subject}</p>}
               </div>
 
               <div>
@@ -60,18 +137,38 @@ export default function Contact() {
                 </label>
                 <textarea
                   id="message"
+                  value={formData.message}
+                  onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
                   rows={4}
-                  className="w-full px-4 py-2 md:py-3 rounded-lg bg-primary/50 border border-gray-700 text-white focus:ring-2 focus:ring-accent focus:border-transparent outline-none resize-none"
-                  placeholder="Your message"
-                ></textarea>
+                  className={`w-full px-4 py-2 md:py-3 rounded-lg bg-primary/50 border ${errors.message ? 'border-red-500' : 'border-gray-700'} text-white focus:ring-2 focus:ring-accent focus:border-transparent outline-none resize-none`}
+                  placeholder="Your message here..."
+                />
+                {errors.message && <p className="mt-1 text-sm text-red-500">{errors.message}</p>}
               </div>
 
               <button
                 type="submit"
-                className="w-full md:w-auto px-8 py-3 bg-accent text-white font-medium rounded-lg hover:bg-accent/90 transition-colors duration-200"
+                disabled={status === 'submitting'}
+                className={`w-full py-3 px-6 rounded-lg font-medium transition-all duration-200 ${
+                  status === 'submitting'
+                    ? 'bg-gray-500 cursor-not-allowed'
+                    : 'bg-accent hover:bg-accent/80'
+                }`}
               >
-                Send Message
+                {status === 'submitting' ? 'Sending...' : 'Send Message'}
               </button>
+
+              {status === 'success' && (
+                <div className="mt-4 p-4 bg-green-500/20 border border-green-500 rounded-lg text-green-500 text-center">
+                  Message sent successfully!
+                </div>
+              )}
+
+              {status === 'error' && (
+                <div className="mt-4 p-4 bg-red-500/20 border border-red-500 rounded-lg text-red-500 text-center">
+                  Failed to send message. Please try again.
+                </div>
+              )}
             </form>
           </motion.div>
 
@@ -89,5 +186,5 @@ export default function Contact() {
         </motion.div>
       </div>
     </main>
-  )
+  );
 }

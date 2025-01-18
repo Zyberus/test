@@ -1,5 +1,5 @@
 {
-  "app/about/page.tsx -> @/components/ParticleBackground": {
+  "src/app/about/page.tsx -> @/components/ParticleBackground": {
     "id": 5093,
     "files": [
       "static/chunks/b536a0f1.636e0d74db28a71d.js",
@@ -8,7 +8,7 @@
       "static/chunks/93.0df656ea1a65921c.js"
     ]
   },
-  "app/contact/page.tsx -> @/components/ParticleBackground": {
+  "src/app/contact/page.tsx -> @/components/ParticleBackground": {
     "id": 5093,
     "files": [
       "static/chunks/b536a0f1.636e0d74db28a71d.js",
@@ -17,7 +17,7 @@
       "static/chunks/93.0df656ea1a65921c.js"
     ]
   },
-  "app/features/page.tsx -> @/components/ParticleBackground": {
+  "src/app/features/page.tsx -> @/components/ParticleBackground": {
     "id": 5093,
     "files": [
       "static/chunks/b536a0f1.636e0d74db28a71d.js",
@@ -26,7 +26,7 @@
       "static/chunks/93.0df656ea1a65921c.js"
     ]
   },
-  "app/page.tsx -> @/components/HeroCanvas": {
+  "src/app/page.tsx -> @/components/HeroCanvas": {
     "id": 4580,
     "files": [
       "static/chunks/b536a0f1.636e0d74db28a71d.js",
@@ -35,7 +35,7 @@
       "static/chunks/580.48a8a204135e0653.js"
     ]
   },
-  "app/page.tsx -> @/components/ParticleBackground": {
+  "src/app/page.tsx -> @/components/ParticleBackground": {
     "id": 5093,
     "files": [
       "static/chunks/b536a0f1.636e0d74db28a71d.js",
@@ -44,7 +44,7 @@
       "static/chunks/93.0df656ea1a65921c.js"
     ]
   },
-  "app/page.tsx -> @/components/PortfolioSection": {
+  "src/app/page.tsx -> @/components/PortfolioSection": {
     "id": 9831,
     "files": [
       "static/chunks/b536a0f1.636e0d74db28a71d.js",
