@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #0a0a0a;
+  --secondary: #141414;
+  --accent: #3498db;
+  --accent-light: #87ceeb;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  
+  /* Spacing System */
+  --space-xs: clamp(1rem, 0.9rem + 0.5vw, 1.5rem);
+  --space-s: clamp(1.5rem, 1.3rem + 1vw, 2.5rem);
+  --space-m: clamp(2rem, 1.8rem + 1.5vw, 3.5rem);
+  --space-l: clamp(3rem, 2.5rem + 2.5vw, 5.5rem);
+  --space-xl: clamp(4rem, 3.5rem + 3.5vw, 7.5rem);
+}
+
+@layer base {
+  html {
+    @apply antialiased scroll-smooth;
+  }
+
+  body {
+    @apply bg-[var(--primary)] text-[var(--text-primary)] overflow-x-hidden;
+    font-feature-settings: "ss01" on, "ss02" on, "cv01" on, "cv03" on;
+  }
+
+  a, button, h1, h2, h3, h4, h5, h6, p, span, div {
+    @apply transition-colors duration-200;
+  }
+}
+
+@layer components {
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply bg-[var(--accent)] text-white hover:bg-[var(--accent-light)];
+  }
+
+  .btn-secondary {
+    @apply bg-[var(--secondary)] text-white hover:bg-[var(--primary)];
+  }
+
+  .nav-link {
+    @apply text-[var(--text-secondary)] hover:text-[var(--text-primary)] px-3 py-2 rounded-md text-sm font-medium;
+  }
+
+  .nav-link-active {
+    @apply text-[var(--text-primary)] bg-[var(--secondary)];
+  }
+}
