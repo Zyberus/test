@@ -23,7 +23,14 @@ const Navigation = () => {
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About' },
     { href: '/features', label: 'Features' },
-    { href: '/contact', label: 'Contact' }
+    { href: '/contact', label: 'Contact' },
+    {
+      href: '#',
+      label: 'Apps',
+      submenu: [
+        { href: '/apps/chat', label: 'Zyberus Chat' }
+      ]
+    }
   ]
 
   return (
@@ -44,29 +51,50 @@ const Navigation = () => {
 
           <div className="hidden md:flex items-center gap-[var(--space-m)]">
             <div className="flex items-center gap-[var(--space-s)]">
-              {links.map(({ href, label }) => {
-                const isActive = pathname === href
-                return (
-                  <Link
-                    key={href}
-                    href={href}
-                    className="relative group px-3 py-2"
-                  >
-                    <span className={`relative z-10 text-sm font-medium transition-colors duration-300 ${
-                      isActive ? 'text-accent' : 'text-gray-300 group-hover:text-white'
-                    }`}>
-                      {label}
-                    </span>
-                    {isActive && (
-                      <motion.div
-                        layoutId="navUnderline"
-                        className="absolute left-0 right-0 bottom-0 h-px bg-accent"
-                      />
-                    )}
-                    <span className="absolute inset-0 rounded-lg group-hover:bg-white/5 transition-all duration-300" />
-                  </Link>
-                )
-              })}
+              {links.map((link, index) => (
+                <div key={index} className="relative group">
+                  {link.submenu ? (
+                    <>
+                      <button className="text-zinc-400 hover:text-white transition-colors">
+                        {link.label}
+                      </button>
+                      <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-zinc-900 ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                        <div className="py-1">
+                          {link.submenu.map((subItem, subIndex) => (
+                            <Link
+                              key={subIndex}
+                              href={subItem.href}
+                              className="block px-4 py-2 text-sm text-zinc-400 hover:text-white hover:bg-zinc-800"
+                            >
+                              {subItem.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className={`relative group px-3 py-2 ${
+                        pathname === link.href ? 'text-accent' : 'text-gray-300 group-hover:text-white'
+                      }`}
+                    >
+                      <span className={`relative z-10 text-sm font-medium transition-colors duration-300 ${
+                        pathname === link.href ? 'text-accent' : 'text-gray-300 group-hover:text-white'
+                      }`}>
+                        {link.label}
+                      </span>
+                      {pathname === link.href && (
+                        <motion.div
+                          layoutId="navUnderline"
+                          className="absolute left-0 right-0 bottom-0 h-px bg-accent"
+                        />
+                      )}
+                      <span className="absolute inset-0 rounded-lg group-hover:bg-white/5 transition-all duration-300" />
+                    </Link>
+                  )}
+                </div>
+              ))}
             </div>
 
             <motion.button
@@ -88,10 +116,18 @@ const Navigation = () => {
 
           <div className={`w-full ${isOpen ? 'block' : 'hidden'} md:flex md:items-center md:w-auto`}>
             <div className="text-sm md:flex-grow">
-              {links.map(({ href, label }) => (
-                <Link key={href} href={href} className="block mt-4 md:inline-block md:mt-0 text-white hover:text-gray-400 mr-4">
-                  {label}
-                </Link>
+              {links.map((link, index) => (
+                <div key={index}>
+                  {link.submenu ? (
+                    <button className="block mt-4 md:inline-block md:mt-0 text-white hover:text-gray-400 mr-4">
+                      {link.label}
+                    </button>
+                  ) : (
+                    <Link key={index} href={link.href} className="block mt-4 md:inline-block md:mt-0 text-white hover:text-gray-400 mr-4">
+                      {link.label}
+                    </Link>
+                  )}
+                </div>
               ))}
             </div>
           </div>
