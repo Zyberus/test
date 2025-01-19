@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { useState, FormEvent } from 'react'
 
-const ParticleBackground = dynamic(() => import('../../../components/ParticleBackground'), {
+const ParticleBackground = dynamic(() => import('../../../components/ParticleBackground.tsx'), {
   ssr: false
 })
 
