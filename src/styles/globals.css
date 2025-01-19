@@ -5,8 +5,8 @@
 :root {
   --primary: #0a0a0a;
   --secondary: #141414;
-  --accent: #3498db;
-  --accent-light: #87ceeb;
+  --accent: #3b82f6;
+  --accent-light: #60a5fa;
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.7);
   
@@ -34,7 +34,7 @@
 }
 
 @layer components {
-  .container {
+  .container-width {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
@@ -50,11 +50,28 @@
     @apply bg-[var(--secondary)] text-white hover:bg-[var(--primary)];
   }
 
-  .nav-link {
-    @apply text-[var(--text-secondary)] hover:text-[var(--text-primary)] px-3 py-2 rounded-md text-sm font-medium;
+  .text-gradient {
+    @apply bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent;
   }
 
-  .nav-link-active {
-    @apply text-[var(--text-primary)] bg-[var(--secondary)];
+  .glass-effect {
+    @apply bg-zinc-900/80 backdrop-blur-lg border-b border-zinc-800/50;
   }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-zinc-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-zinc-700 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-zinc-600;
 }
