@@ -1,30 +1,36 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-// Access the API key from environment variables
-const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-
-// Initialize the Gemini API client
-const genAI = new GoogleGenerativeAI(apiKey || '');
-
 export async function POST(req: Request) {
   try {
-    // Validate API key
-    if (!apiKey) {
-      return NextResponse.json(
-        { error: 'API key not configured' },
-        { status: 500 }
+    // Get API key from environment
+    const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+
+    // Validate API key first
+    if (!apiKey || apiKey.trim() === '') {
+      return new Response(
+        JSON.stringify({ error: 'API key not configured' }), 
+        { 
+          status: 500,
+          headers: { 'Content-Type': 'application/json' }
+        }
       );
     }
+
+    // Initialize the Gemini API client
+    const genAI = new GoogleGenerativeAI(apiKey);
 
     // Parse request body
     const body = await req.json();
     const { message } = body;
 
     if (!message) {
-      return NextResponse.json(
-        { error: 'Message is required' },
-        { status: 400 }
+      return new Response(
+        JSON.stringify({ error: 'Message is required' }), 
+        { 
+          status: 400,
+          headers: { 'Content-Type': 'application/json' }
+        }
       );
     }
 
@@ -36,24 +42,46 @@ export async function POST(req: Request) {
       const text = response.text();
 
       if (!text) {
-        return NextResponse.json({ error: 'Empty response from AI' }, { status: 500 });
+        return new Response(
+          JSON.stringify({ error: 'Empty response from AI' }), 
+          { 
+            status: 500,
+            headers: { 'Content-Type': 'application/json' }
+          }
+        );
       }
 
-      // Return formatted JSON response
-      return NextResponse.json({ response: text });
+      // Return successful response
+      return new Response(
+        JSON.stringify({ response: text }), 
+        { 
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
 
     } catch (error) {
       console.error('Gemini API Error:', error);
-      return NextResponse.json(
-        { error: error instanceof Error ? error.message : 'Failed to process request' },
-        { status: 500 }
+      return new Response(
+        JSON.stringify({ 
+          error: error instanceof Error ? error.message : 'Failed to process request'
+        }), 
+        { 
+          status: 500,
+          headers: { 'Content-Type': 'application/json' }
+        }
       );
     }
   } catch (error) {
     console.error('Request processing error:', error);
-    return NextResponse.json(
-      { error: 'Invalid request format' },
-      { status: 400 }
+    return new Response(
+      JSON.stringify({ 
+        error: error instanceof Error ? error.message : 'Failed to process request'
+      }), 
+      { 
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
     );
   }
 }
