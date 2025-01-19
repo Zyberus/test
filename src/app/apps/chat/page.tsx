@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
 
-const ParticleBackground = dynamic(() => import('../../../../components/ParticleBackground.tsx'), {
+const ParticleBackground = dynamic(() => import('@/components/ParticleBackground'), {
   ssr: false
 });
 

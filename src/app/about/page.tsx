@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 
-const ParticleBackground = dynamic(() => import('../../../components/ParticleBackground.tsx'), {
+const ParticleBackground = dynamic(() => import('@/components/ParticleBackground'), {
   ssr: false
 })
 
