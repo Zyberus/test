@@ -1,12 +1,23 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
+// Access the API key from environment variables
+const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+
 // Initialize the Gemini API client
-const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY || '');
+const genAI = new GoogleGenerativeAI(apiKey || '');
 
 export async function POST(req: Request) {
   try {
-    // Parse the request body
+    // Validate API key
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: 'API key not configured' },
+        { status: 500 }
+      );
+    }
+
+    // Parse request body
     const body = await req.json();
     const { message } = body;
 
@@ -17,14 +28,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Check if API key is configured
-    if (!process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: 'API key not configured' },
-        { status: 500 }
-      );
-    }
-
     try {
       // Generate response using Gemini
       const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
@@ -32,7 +35,21 @@ export async function POST(req: Request) {
       const response = await result.response;
       const text = response.text();
 
-      return NextResponse.json({ response: text });
+      // Ensure we have a valid response
+      if (!text) {
+        throw new Error('Empty response from AI');
+      }
+
+      // Return formatted JSON response
+      return new NextResponse(
+        JSON.stringify({ response: text }),
+        {
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
     } catch (error) {
       console.error('Gemini API Error:', error);
       return NextResponse.json(

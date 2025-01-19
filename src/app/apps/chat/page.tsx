@@ -9,7 +9,7 @@ const ParticleBackground = dynamic(() => import('@/components/ParticleBackground
 });
 
 export default function ChatPage() {
-  const [messages, setMessages] = useState<Array<{text: string, isUser: boolean}>>([]);
+  const [messages, setMessages] = useState<Array<{text: string, isUser: boolean, isError?: boolean}>>([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -38,21 +38,24 @@ export default function ChatPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
         body: JSON.stringify({ message: userMessage }),
       });
 
-      const data = await response.json();
-      
+      let data;
+      try {
+        data = await response.json();
+      } catch (e) {
+        console.error('Failed to parse JSON response:', e);
+        throw new Error('Invalid response format from server');
+      }
+
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to get response from AI');
+        throw new Error(data.error || `Error: ${response.status}`);
       }
 
-      if (data.error) {
-        throw new Error(data.error);
-      }
-
-      if (!data.response) {
+      if (!data || !data.response) {
         throw new Error('Invalid response format from server');
       }
 
@@ -64,6 +67,7 @@ export default function ChatPage() {
       setMessages(prev => [...prev, {
         text: `Error: ${errorMessage}. Please try again.`,
         isUser: false,
+        isError: true
       }]);
     } finally {
       setIsLoading(false);
@@ -138,10 +142,12 @@ export default function ChatPage() {
                         className={`max-w-[85%] p-4 rounded-xl ${
                           message.isUser
                             ? 'bg-zinc-900 border border-zinc-800'
-                            : 'bg-zinc-950 border border-zinc-800'
+                            : message.isError
+                              ? 'bg-red-950/30 border border-red-900/30'
+                              : 'bg-zinc-950 border border-zinc-800'
                         }`}
                       >
-                        <div className={`whitespace-pre-wrap ${message.isUser ? 'text-zinc-200' : 'text-zinc-300'}`}>
+                        <div className={`whitespace-pre-wrap ${message.isUser ? 'text-zinc-200' : message.isError ? 'text-red-400' : 'text-zinc-300'}`}>
                           {message.text}
                         </div>
                       </div>
