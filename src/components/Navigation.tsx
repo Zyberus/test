@@ -45,31 +45,34 @@ const Navigation = () => {
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
-          <Link href="/" className="text-2xl font-bold text-gradient">
-            App-Nest
-          </Link>
+          <div className="flex-1">
+            {/* Logo space */}
+          </div>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
+          {/* Desktop Navigation - Now right-aligned */}
+          <div className="hidden md:flex items-center justify-end space-x-8">
             {links.map((link, index) => (
               <div key={index} className="relative group">
                 {link.submenu ? (
                   <>
                     <button 
-                      className="text-zinc-400 hover:text-white transition-colors"
+                      className="relative group px-3 py-2 text-zinc-400 hover:text-white transition-colors"
                       onClick={() => setActiveSubmenu(activeSubmenu === link.label ? null : link.label)}
                     >
-                      {link.label}
+                      <span className="relative z-10 text-sm font-medium">
+                        {link.label}
+                      </span>
+                      <span className="absolute inset-0 rounded-lg group-hover:bg-white/5 transition-all duration-300" />
                     </button>
-                    <div className={`absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-zinc-900 ring-1 ring-black ring-opacity-5 transition-all duration-200 ${
-                      activeSubmenu === link.label ? 'opacity-100 visible' : 'opacity-0 invisible'
+                    <div className={`absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-zinc-900/95 backdrop-blur-sm ring-1 ring-black ring-opacity-5 transition-all duration-200 ${
+                      activeSubmenu === link.label ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
                     }`}>
                       <div className="py-1">
                         {link.submenu.map((subItem, subIndex) => (
                           <Link
                             key={subIndex}
                             href={subItem.href}
-                            className="block px-4 py-2 text-sm text-zinc-400 hover:text-white hover:bg-zinc-800"
+                            className="block px-4 py-2 text-sm text-zinc-400 hover:text-white hover:bg-zinc-800/50"
                             onClick={() => setActiveSubmenu(null)}
                           >
                             {subItem.label}
@@ -81,11 +84,20 @@ const Navigation = () => {
                 ) : (
                   <Link
                     href={link.href}
-                    className={`text-sm font-medium ${
-                      pathname === link.href ? 'text-white' : 'text-zinc-400 hover:text-white'
-                    }`}
+                    className="relative group px-3 py-2"
                   >
-                    {link.label}
+                    <span className={`relative z-10 text-sm font-medium transition-colors duration-300 ${
+                      pathname === link.href ? 'text-white' : 'text-zinc-400 group-hover:text-white'
+                    }`}>
+                      {link.label}
+                    </span>
+                    {pathname === link.href && (
+                      <motion.div
+                        layoutId="navUnderline"
+                        className="absolute left-0 right-0 bottom-0 h-px bg-gradient-to-r from-blue-500 to-purple-500"
+                      />
+                    )}
+                    <span className="absolute inset-0 rounded-lg group-hover:bg-white/5 transition-all duration-300" />
                   </Link>
                 )}
               </div>
@@ -94,7 +106,7 @@ const Navigation = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-white"
+            className="md:hidden text-white ml-4"
             onClick={() => setIsOpen(!isOpen)}
           >
             <svg
@@ -120,56 +132,65 @@ const Navigation = () => {
               )}
             </svg>
           </button>
-        </div>
 
-        {/* Mobile Menu */}
-        {isOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {links.map((link, index) => (
-                <div key={index}>
-                  {link.submenu ? (
-                    <>
-                      <button
-                        className="w-full text-left px-3 py-2 text-zinc-400 hover:text-white"
-                        onClick={() => setActiveSubmenu(activeSubmenu === link.label ? null : link.label)}
+          {/* Mobile Menu */}
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="absolute top-full left-0 right-0 bg-zinc-900/95 backdrop-blur-sm md:hidden"
+            >
+              <div className="px-2 pt-2 pb-3 space-y-1">
+                {links.map((link, index) => (
+                  <div key={index}>
+                    {link.submenu ? (
+                      <>
+                        <button
+                          className="w-full text-left px-3 py-2 text-zinc-400 hover:text-white"
+                          onClick={() => setActiveSubmenu(activeSubmenu === link.label ? null : link.label)}
+                        >
+                          {link.label}
+                        </button>
+                        {activeSubmenu === link.label && (
+                          <motion.div
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="pl-4"
+                          >
+                            {link.submenu.map((subItem, subIndex) => (
+                              <Link
+                                key={subIndex}
+                                href={subItem.href}
+                                className="block px-3 py-2 text-sm text-zinc-400 hover:text-white"
+                                onClick={() => {
+                                  setIsOpen(false);
+                                  setActiveSubmenu(null);
+                                }}
+                              >
+                                {subItem.label}
+                              </Link>
+                            ))}
+                          </motion.div>
+                        )}
+                      </>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className={`block px-3 py-2 text-sm ${
+                          pathname === link.href ? 'text-white' : 'text-zinc-400 hover:text-white'
+                        }`}
+                        onClick={() => setIsOpen(false)}
                       >
                         {link.label}
-                      </button>
-                      {activeSubmenu === link.label && (
-                        <div className="pl-4">
-                          {link.submenu.map((subItem, subIndex) => (
-                            <Link
-                              key={subIndex}
-                              href={subItem.href}
-                              className="block px-3 py-2 text-sm text-zinc-400 hover:text-white"
-                              onClick={() => {
-                                setIsOpen(false);
-                                setActiveSubmenu(null);
-                              }}
-                            >
-                              {subItem.label}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    <Link
-                      href={link.href}
-                      className={`block px-3 py-2 text-sm ${
-                        pathname === link.href ? 'text-white' : 'text-zinc-400 hover:text-white'
-                      }`}
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {link.label}
-                    </Link>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+                      </Link>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </div>
       </div>
     </motion.nav>
   );

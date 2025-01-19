@@ -43,8 +43,13 @@ export default function ChatPage() {
       });
 
       const data = await response.json();
+      
       if (!response.ok) {
-        throw new Error(data.error || data.details || `Error: ${response.status}`);
+        throw new Error(data.error || 'Failed to get response from AI');
+      }
+
+      if (data.error) {
+        throw new Error(data.error);
       }
 
       if (!data.response) {
@@ -57,7 +62,7 @@ export default function ChatPage() {
       const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
       setError(errorMessage);
       setMessages(prev => [...prev, {
-        text: 'I apologize, but I encountered an error. Please try again.',
+        text: `Error: ${errorMessage}. Please try again.`,
         isUser: false,
       }]);
     } finally {
