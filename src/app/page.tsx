@@ -6,15 +6,15 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import Image from 'next/image'
 
-const ParticleBackground = dynamic(() => import('@/components/ParticleBackground'), {
+const ParticleBackground = dynamic(() => import('../../components/ParticleBackground'), {
   ssr: false
 })
 
-const PortfolioSection = dynamic(() => import('@/components/PortfolioSection'), {
+const PortfolioSection = dynamic(() => import('../../components/PortfolioSection'), {
   ssr: false
 })
 
-const HeroCanvas = dynamic(() => import('@/components/HeroCanvas'), {
+const HeroCanvas = dynamic(() => import('../../components/HeroCanvas'), {
   ssr: false
 })
 
