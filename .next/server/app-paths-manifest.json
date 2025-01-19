@@ -3,7 +3,7 @@
   "/api/chat/route": "app/api/chat/route.js",
   "/about/page": "app/about/page.js",
   "/contact/page": "app/contact/page.js",
-  "/features/page": "app/features/page.js",
   "/page": "app/page.js",
+  "/features/page": "app/features/page.js",
   "/apps/chat/page": "app/apps/chat/page.js"
 }

@@ -35,25 +35,17 @@ export async function POST(req: Request) {
       const response = await result.response;
       const text = response.text();
 
-      // Ensure we have a valid response
       if (!text) {
-        throw new Error('Empty response from AI');
+        return NextResponse.json({ error: 'Empty response from AI' }, { status: 500 });
       }
 
       // Return formatted JSON response
-      return new NextResponse(
-        JSON.stringify({ response: text }),
-        {
-          status: 200,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      return NextResponse.json({ response: text });
+
     } catch (error) {
       console.error('Gemini API Error:', error);
       return NextResponse.json(
-        { error: 'Failed to generate response from AI' },
+        { error: error instanceof Error ? error.message : 'Failed to process request' },
         { status: 500 }
       );
     }
