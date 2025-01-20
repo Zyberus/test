@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 
 // Define the interface for Contact document
 interface IContact extends mongoose.Document {
@@ -7,6 +7,11 @@ interface IContact extends mongoose.Document {
   message: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+// Define static methods
+interface ContactModel extends Model<IContact> {
+  getInfo(): Promise<{ dbName: string; collectionName: string; count: number }>;
 }
 
 const contactSchema = new mongoose.Schema<IContact>({
@@ -52,17 +57,17 @@ contactSchema.post('save', function(doc) {
 });
 
 // Add static method to get database and collection info
-contactSchema.statics.getInfo = async function() {
+contactSchema.static('getInfo', async function() {
   const dbName = this.db.name;
   const collectionName = this.collection.name;
   const count = await this.countDocuments();
   console.log(`Database: ${dbName}, Collection: ${collectionName}, Documents: ${count}`);
   return { dbName, collectionName, count };
-};
+});
 
-// Create the model
-const Contact = (mongoose.models.Contact as mongoose.Model<IContact>) || 
-                mongoose.model<IContact>('Contact', contactSchema);
+// Create the model with proper typing
+const Contact = mongoose.models.Contact as ContactModel || 
+                mongoose.model<IContact, ContactModel>('Contact', contactSchema);
 
 // Log model information
 Contact.getInfo().catch(console.error);
