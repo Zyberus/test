@@ -1,6 +1,6 @@
 [build]
   command = "npm run build"
-  publish = ".next"
+  publish = "out"
 
 [build.environment]
   NEXT_TELEMETRY_DISABLED = "1"
@@ -13,25 +13,10 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-[functions]
-  included_files = ["package.json", "package-lock.json"]
-  node_bundler = "esbuild"
-
-[[redirects]]
-  from = "/_next/static/*"
-  to = "/_next/static/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/server/api/:splat"
-  status = 200
-
 [[redirects]]
   from = "/*"
-  to = "/.netlify/functions/server"
+  to = "/index.html"
   status = 200
-  force = true
 
 [[headers]]
   for = "/*"
