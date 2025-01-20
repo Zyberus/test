@@ -1,7 +1,7 @@
-import { Context } from '@netlify/edge-functions';
+import { Config } from '@netlify/edge-functions';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-export default async (request: Request, context: Context) => {
+export default async (request: Request, context: Config) => {
   // Handle CORS preflight requests
   if (request.method === 'OPTIONS') {
     return new Response(null, {
@@ -24,7 +24,7 @@ export default async (request: Request, context: Context) => {
   }
 
   try {
-    const apiKey = Netlify.env.get('NEXT_PUBLIC_GEMINI_API_KEY');
+    const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
     if (!apiKey) {
       return new Response(JSON.stringify({ error: 'API key not configured' }), {
         status: 500,
