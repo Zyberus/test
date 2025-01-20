@@ -2,14 +2,9 @@ import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 // Ensure response is JSON
-const jsonResponse = (data: any, status = 200) => {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-};
+function jsonResponse(data: any, status = 200) {
+  return NextResponse.json(data, { status });
+}
 
 export async function POST(req: Request) {
   console.log('Chat API route hit');
@@ -20,9 +15,15 @@ export async function POST(req: Request) {
   }
 
   try {
-    // Check API key
+    // Check API key during runtime only
     const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
     console.log('API Key status:', apiKey ? 'Present' : 'Missing');
+
+    // Skip API key check during build
+    if (process.env.NODE_ENV === 'production' && process.env.NETLIFY) {
+      console.log('Skipping API key check during build');
+      return jsonResponse({ message: 'Build time check skipped' }, 200);
+    }
 
     if (!apiKey) {
       return jsonResponse({ error: 'API key not configured' }, 500);

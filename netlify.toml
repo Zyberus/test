@@ -3,9 +3,6 @@
   publish = ".next"
 
 [build.environment]
-  MONGODB_URI = ""
-  NEXT_PUBLIC_API_URL = ""
-  NEXT_PUBLIC_GEMINI_API_KEY = ""
   NODE_ENV = "production"
   NEXT_TELEMETRY_DISABLED = "1"
   SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_GEMINI_API_KEY"
