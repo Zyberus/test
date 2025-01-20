@@ -1,7 +1,7 @@
 import mongoose, { Model } from 'mongoose';
 
 // Define the interface for Contact document
-interface IContact extends mongoose.Document {
+export interface IContact extends mongoose.Document {
   name: string;
   email: string;
   message: string;
@@ -66,10 +66,8 @@ contactSchema.static('getInfo', async function() {
 });
 
 // Create the model with proper typing
-const Contact = mongoose.models.Contact as ContactModel || 
+export const Contact = mongoose.models.Contact as ContactModel || 
                 mongoose.model<IContact, ContactModel>('Contact', contactSchema);
 
 // Log model information
 Contact.getInfo().catch(console.error);
-
-export default Contact;
