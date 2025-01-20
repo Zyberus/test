@@ -1,62 +1,74 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
+// Ensure response is JSON
+const jsonResponse = (data: any, status = 200) => {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
 export async function POST(req: Request) {
   console.log('Chat API route hit');
+  
+  // Validate request method
+  if (req.method !== 'POST') {
+    return jsonResponse({ error: 'Method not allowed' }, 405);
+  }
+
   try {
-    console.log('API Key:', process.env.NEXT_PUBLIC_GEMINI_API_KEY ? 'Present' : 'Missing');
-    
-    if (!process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
-      console.log('API key missing error');
-      return NextResponse.json(
-        { error: 'API key not configured' },
-        { status: 500 }
-      );
+    // Check API key
+    const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+    console.log('API Key status:', apiKey ? 'Present' : 'Missing');
+
+    if (!apiKey) {
+      return jsonResponse({ error: 'API key not configured' }, 500);
     }
 
-    const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    // Parse request body
+    let body;
+    try {
+      body = await req.json();
+    } catch (e) {
+      return jsonResponse({ error: 'Invalid request body' }, 400);
+    }
 
-    const body = await req.json();
-    console.log('Request body:', body);
     const { message } = body;
+    console.log('Received message:', message);
 
     if (!message) {
-      console.log('Message missing error');
-      return NextResponse.json(
-        { error: 'Message is required' },
-        { status: 400 }
-      );
+      return jsonResponse({ error: 'Message is required' }, 400);
     }
 
+    // Initialize Gemini
     try {
-      console.log('Calling Gemini API with message:', message);
+      const genAI = new GoogleGenerativeAI(apiKey);
+      const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+
+      console.log('Calling Gemini API...');
       const result = await model.generateContent(message);
       const response = await result.response;
       const text = response.text();
-      console.log('Gemini API response:', text);
+      console.log('Gemini response:', text);
 
       if (!text) {
-        console.log('Empty response error');
-        return NextResponse.json(
-          { error: 'Empty response from AI' },
-          { status: 500 }
-        );
+        return jsonResponse({ error: 'Empty response from AI' }, 500);
       }
 
-      return NextResponse.json({ response: text });
+      return jsonResponse({ response: text });
     } catch (error) {
       console.error('Gemini API Error:', error);
-      return NextResponse.json(
-        { error: error instanceof Error ? error.message : 'Failed to generate AI response' },
-        { status: 500 }
-      );
+      return jsonResponse({ 
+        error: error instanceof Error ? error.message : 'Failed to generate AI response'
+      }, 500);
     }
   } catch (error) {
     console.error('Request processing error:', error);
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to process request' },
-      { status: 500 }
-    );
+    return jsonResponse({ 
+      error: error instanceof Error ? error.message : 'Failed to process request'
+    }, 500);
   }
 }

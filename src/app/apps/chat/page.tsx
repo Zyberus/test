@@ -32,24 +32,25 @@ export default function ChatPage() {
     setIsLoading(true);
 
     try {
+      console.log('Sending message:', userMessage);
+      
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
         body: JSON.stringify({ message: userMessage }),
       });
 
-      const responseText = await response.text();
-      console.log('Raw response:', responseText);
-
-      let data;
-      try {
-        data = JSON.parse(responseText);
-      } catch (e) {
-        console.error('Failed to parse response:', e);
-        throw new Error('Invalid response format from server');
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        console.error('Invalid content type:', contentType);
+        throw new Error('Server returned non-JSON response');
       }
+
+      const data = await response.json();
+      console.log('Server response:', data);
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to get response');
@@ -64,7 +65,7 @@ export default function ChatPage() {
       console.error('Chat Error:', error);
       const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
       setMessages(prev => [...prev, {
-        text: errorMessage,
+        text: `Error: ${errorMessage}`,
         isUser: false,
         isError: true
       }]);
