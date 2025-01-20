@@ -8,8 +8,8 @@ const Header = dynamic(() => import('@/components/Header'), { ssr: true })
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'App-Nest - Web Development Excellence',
-  description: 'Crafting Digital Experiences with Modern Web Development',
+  title: 'App-Nest - Building the Future',
+  description: 'App-Nest is a leading software development company specializing in web and mobile applications.',
 }
 
 export default function RootLayout({
@@ -18,7 +18,19 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
+      <head>
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preconnect"
+          href="https://fonts.googleapis.com"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className={`${inter.className} min-h-screen bg-[var(--primary)] text-[var(--text-primary)]`}>
         <Header />
         {children}
