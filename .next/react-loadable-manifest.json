@@ -1,1 +1,56 @@
-{}
+{
+  "../src/app/about/page.tsx -> @/components/ParticleBackground": {
+    "id": 8879,
+    "files": [
+      "static/chunks/b536a0f1.55925bfa6ac8515d.js",
+      "static/chunks/c15bf2b0.f95720b25234f2e4.js",
+      "static/chunks/716.807f75b918b60f7d.js",
+      "static/chunks/879.ef2459975810f4b0.js"
+    ]
+  },
+  "../src/app/apps/chat/page.tsx -> @/components/ParticleBackground": {
+    "id": 8879,
+    "files": [
+      "static/chunks/b536a0f1.55925bfa6ac8515d.js",
+      "static/chunks/c15bf2b0.f95720b25234f2e4.js",
+      "static/chunks/716.807f75b918b60f7d.js",
+      "static/chunks/879.ef2459975810f4b0.js"
+    ]
+  },
+  "../src/app/features/page.tsx -> @/components/ParticleBackground": {
+    "id": 8879,
+    "files": [
+      "static/chunks/b536a0f1.55925bfa6ac8515d.js",
+      "static/chunks/c15bf2b0.f95720b25234f2e4.js",
+      "static/chunks/716.807f75b918b60f7d.js",
+      "static/chunks/879.ef2459975810f4b0.js"
+    ]
+  },
+  "../src/app/page.tsx -> @/components/HeroCanvas": {
+    "id": 2547,
+    "files": [
+      "static/chunks/b536a0f1.55925bfa6ac8515d.js",
+      "static/chunks/c15bf2b0.f95720b25234f2e4.js",
+      "static/chunks/716.807f75b918b60f7d.js",
+      "static/chunks/547.a4bcbe43d78919e3.js"
+    ]
+  },
+  "../src/app/page.tsx -> @/components/ParticleBackground": {
+    "id": 8879,
+    "files": [
+      "static/chunks/b536a0f1.55925bfa6ac8515d.js",
+      "static/chunks/c15bf2b0.f95720b25234f2e4.js",
+      "static/chunks/716.807f75b918b60f7d.js",
+      "static/chunks/879.ef2459975810f4b0.js"
+    ]
+  },
+  "../src/app/page.tsx -> @/components/PortfolioSection": {
+    "id": 9163,
+    "files": [
+      "static/chunks/b536a0f1.55925bfa6ac8515d.js",
+      "static/chunks/c15bf2b0.f95720b25234f2e4.js",
+      "static/chunks/716.807f75b918b60f7d.js",
+      "static/chunks/163.86262242aac7381f.js"
+    ]
+  }
+}
