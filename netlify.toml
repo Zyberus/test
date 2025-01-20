@@ -22,9 +22,25 @@
   node_bundler = "esbuild"
 
 [[redirects]]
+  from = "/_next/static/*"
+  to = "/_next/static/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/_next/image"
+  to = "/.netlify/functions/next-image"
+  status = 200
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/nextjs-server"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/.netlify/functions/nextjs-server"
   status = 200
+  force = true
 
 [[headers]]
   for = "/api/*"
