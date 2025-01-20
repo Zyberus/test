@@ -16,11 +16,15 @@ export async function POST(req: Request) {
   }
 
   try {
+    console.log('Received contact form submission');
+
     // Parse JSON body safely
     let body;
     try {
       body = await req.json();
+      console.log('Parsed request body:', body);
     } catch (e) {
+      console.error('JSON parsing error:', e);
       return NextResponse.json(
         { error: 'Invalid JSON payload' },
         { status: 400, headers }
@@ -31,6 +35,7 @@ export async function POST(req: Request) {
 
     // Validate inputs
     if (!name || !email || !message) {
+      console.error('Missing required fields:', { name, email, message });
       return NextResponse.json(
         { error: 'Name, email, and message are required' },
         { status: 400, headers }
@@ -39,7 +44,9 @@ export async function POST(req: Request) {
 
     // Connect to database
     try {
+      console.log('Connecting to database...');
       await connectDB();
+      console.log('Database connected successfully');
     } catch (e) {
       console.error('Database connection error:', e);
       return NextResponse.json(
@@ -50,18 +57,33 @@ export async function POST(req: Request) {
 
     // Create new contact submission
     try {
-      const contact = await Contact.create({
+      console.log('Creating contact document...');
+      const contactData = {
         name,
         email,
         message,
-      });
+        createdAt: new Date(),
+      };
+      console.log('Contact data:', contactData);
+
+      const contact = await Contact.create(contactData);
+      console.log('Contact created successfully:', contact);
 
       return NextResponse.json(
-        { message: 'Message sent successfully', contact },
+        { 
+          message: 'Message sent successfully', 
+          contact: contact.toObject() 
+        },
         { status: 201, headers }
       );
     } catch (e) {
       console.error('Contact creation error:', e);
+      if (e instanceof Error) {
+        console.error('Error details:', e.message);
+        if ('errors' in (e as any)) {
+          console.error('Validation errors:', (e as any).errors);
+        }
+      }
       return NextResponse.json(
         { error: 'Failed to save message' },
         { status: 500, headers }
