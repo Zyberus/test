@@ -28,11 +28,17 @@ export default function ContactPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch (e) {
+        throw new Error('Invalid response from server');
+      }
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to send message');
@@ -40,10 +46,11 @@ export default function ContactPage() {
 
       setStatus({
         type: 'success',
-        message: 'Message sent successfully! We will get back to you soon.',
+        message: data.message || 'Message sent successfully! We will get back to you soon.',
       });
       setFormData({ name: '', email: '', message: '' });
     } catch (error) {
+      console.error('Form submission error:', error);
       setStatus({
         type: 'error',
         message: error instanceof Error ? error.message : 'Failed to send message',
