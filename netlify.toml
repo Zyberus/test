@@ -1,7 +1,7 @@
 [build]
   command = "npm install --production=false && npm run build"
   publish = ".next"
-  functions = "netlify/functions"
+  edge_functions = "netlify/edge-functions"
 
 [build.environment]
   NEXT_TELEMETRY_DISABLED = "1"

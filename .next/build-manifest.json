@@ -5,42 +5,27 @@
   "devFiles": [],
   "ampDevFiles": [],
   "lowPriorityFiles": [
-    "static/VDlZmdkbfo9n1vVxoGLcL/_buildManifest.js",
-    "static/VDlZmdkbfo9n1vVxoGLcL/_ssgManifest.js"
+    "static/PLio6m9z248otFsDp6dxj/_buildManifest.js",
+    "static/PLio6m9z248otFsDp6dxj/_ssgManifest.js"
   ],
   "rootMainFiles": [
-    "static/chunks/webpack-ce281a88c550969f.js",
+    "static/chunks/webpack-38fd3c2f1270e640.js",
     "static/chunks/fd9d1056-d402c3289b63a580.js",
     "static/chunks/938-c942f0a7a53c1653.js",
     "static/chunks/main-app-2a05fafbbccd73dc.js"
   ],
   "pages": {
     "/_app": [
-      "static/chunks/webpack-ce281a88c550969f.js",
-      "static/chunks/framework-8570577fa7079c0f.js",
-      "static/chunks/main-bf2a3b43ead2a7d7.js",
-      "static/css/f0876c19a0c71f75.css",
-      "static/chunks/pages/_app-c6e913d19cd29c3f.js"
+      "static/chunks/webpack-38fd3c2f1270e640.js",
+      "static/chunks/framework-23b164bd18a90f7c.js",
+      "static/chunks/main-b0e204980860a301.js",
+      "static/chunks/pages/_app-b98acf115d8502f8.js"
     ],
     "/_error": [
-      "static/chunks/webpack-ce281a88c550969f.js",
-      "static/chunks/framework-8570577fa7079c0f.js",
-      "static/chunks/main-bf2a3b43ead2a7d7.js",
+      "static/chunks/webpack-38fd3c2f1270e640.js",
+      "static/chunks/framework-23b164bd18a90f7c.js",
+      "static/chunks/main-b0e204980860a301.js",
       "static/chunks/pages/_error-228a1c6c96ec611b.js"
-    ],
-    "/admin-login": [
-      "static/chunks/webpack-ce281a88c550969f.js",
-      "static/chunks/framework-8570577fa7079c0f.js",
-      "static/chunks/main-bf2a3b43ead2a7d7.js",
-      "static/chunks/pages/admin-login-4bacb05f7a0a7feb.js"
-    ],
-    "/admin-login/dashboard": [
-      "static/chunks/webpack-ce281a88c550969f.js",
-      "static/chunks/framework-8570577fa7079c0f.js",
-      "static/chunks/main-bf2a3b43ead2a7d7.js",
-      "static/chunks/ee8b1517-ebdd3350dd166c39.js",
-      "static/chunks/950-05549b3a71121c1c.js",
-      "static/chunks/pages/admin-login/dashboard-5a544071262d5bb5.js"
     ]
   },
   "ampFirstPages": []

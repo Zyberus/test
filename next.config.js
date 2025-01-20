@@ -52,6 +52,16 @@ const nextConfig = {
     ];
   },
   output: 'standalone',
+  trailingSlash: false,
+  async redirects() {
+    return [
+      {
+        source: '/admin-login',
+        destination: '/',
+        permanent: true,
+      },
+    ];
+  },
   experimental: {
     serverActions: true,
   },
