@@ -50,8 +50,11 @@ async function connectDB() {
       .connect(MONGODB_URI!, opts)
       .then((mongoose) => {
         console.log('MongoDB connected successfully');
-        console.log('Connected to database:', mongoose.connection.db.databaseName);
-        console.log('Available collections:', mongoose.connection.collections);
+        if (mongoose.connection.db) {
+          console.log('Connected to database:', mongoose.connection.db.databaseName);
+          const collections = Object.keys(mongoose.connection.collections);
+          console.log('Available collections:', collections);
+        }
         return mongoose;
       })
       .catch((error) => {
