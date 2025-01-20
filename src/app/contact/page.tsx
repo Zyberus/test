@@ -23,8 +23,11 @@ export default function ContactPage() {
     setIsSubmitting(true);
     setStatus({ type: null, message: '' });
 
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
+    const contactUrl = `${apiUrl}/api/contact`;
+
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch(contactUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -37,6 +40,7 @@ export default function ContactPage() {
       try {
         data = await response.json();
       } catch (e) {
+        console.error('JSON parsing error:', e);
         throw new Error('Invalid response from server');
       }
 
