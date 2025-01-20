@@ -1,10 +1,10 @@
 {
   "/_not-found": "app/_not-found.js",
+  "/about/page": "app/about/page.js",
+  "/api/chat/route": "app/api/chat/route.js",
   "/api/contact/route": "app/api/contact/route.js",
   "/contact/page": "app/contact/page.js",
-  "/about/page": "app/about/page.js",
-  "/page": "app/page.js",
-  "/api/chat/route": "app/api/chat/route.js",
   "/features/page": "app/features/page.js",
+  "/page": "app/page.js",
   "/apps/chat/page": "app/apps/chat/page.js"
 }
