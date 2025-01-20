@@ -15,7 +15,7 @@
   package = "@netlify/plugin-nextjs"
 
 [functions]
-  external_node_modules = ["mongoose"]
+  external_node_modules = ["mongoose", "@google/generative-ai"]
   included_files = ["package.json", "package-lock.json"]
   node_bundler = "esbuild"
 
@@ -23,6 +23,14 @@
   from = "/api/*"
   to = "/.netlify/functions/api/:splat"
   status = 200
+  force = true
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
 
 [[headers]]
   for = "/*"
