@@ -1,202 +1,167 @@
-'use client'
+'use client';
 
-import { motion } from 'framer-motion'
-import dynamic from 'next/dynamic'
-import { useState, FormEvent } from 'react'
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 
-const ParticleBackground = dynamic(() => import('@/components/ParticleBackground'), {
-  ssr: false
-})
-
-interface FormData {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-}
-
-interface FormErrors {
-  [key: string]: string;
-}
-
-export default function Contact() {
-  const [formData, setFormData] = useState<FormData>({
+export default function ContactPage() {
+  const [formData, setFormData] = useState({
     name: '',
     email: '',
-    subject: '',
-    message: ''
+    message: '',
   });
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [status, setStatus] = useState<{
+    type: 'success' | 'error' | null;
+    message: string;
+  }>({
+    type: null,
+    message: '',
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
-    if (!formData.name.trim()) newErrors.name = 'Name is required';
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    else if (!/^\S+@\S+\.\S+$/.test(formData.email)) newErrors.email = 'Invalid email format';
-    if (!formData.subject.trim()) newErrors.subject = 'Subject is required';
-    if (!formData.message.trim()) newErrors.message = 'Message is required';
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateForm()) return;
-
-    setStatus('submitting');
-    setErrorMessage('');
+    setIsSubmitting(true);
+    setStatus({ type: null, message: '' });
 
     try {
-      console.log('Submitting form data:', formData);
-      const response = await fetch('/.netlify/functions/contact', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(formData),
       });
 
-      console.log('Response status:', response.status);
       const data = await response.json();
-      console.log('Response data:', data);
 
       if (!response.ok) {
-        throw new Error(data.message || 'Failed to submit form');
+        throw new Error(data.error || 'Failed to send message');
       }
-      
-      setStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setStatus('idle'), 3000);
+
+      setStatus({
+        type: 'success',
+        message: 'Message sent successfully! We will get back to you soon.',
+      });
+      setFormData({ name: '', email: '', message: '' });
     } catch (error) {
-      console.error('Form submission error:', error);
-      setStatus('error');
-      setErrorMessage(error instanceof Error ? error.message : 'Failed to send message. Please try again.');
-      setTimeout(() => setStatus('idle'), 5000);
+      setStatus({
+        type: 'error',
+        message: error instanceof Error ? error.message : 'Failed to send message',
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  return (
-    <main className="min-h-screen relative pt-16">
-      <ParticleBackground />
-      
-      <div className="content px-4 py-10 md:py-20 max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="max-w-3xl mx-auto"
-        >
-          <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold gradient-text text-center mb-8">
-            Get in Touch
-          </h1>
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
+  return (
+    <main className="min-h-screen">
+      <section className="section-padding">
+        <div className="container-width">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-secondary/30 backdrop-blur-lg rounded-2xl p-6 md:p-8"
+            transition={{ duration: 0.6 }}
+            className="max-w-2xl mx-auto"
           >
-            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+            <div className="text-center space-y-[var(--space-s)] mb-[var(--space-xl)]">
+              <h1 className="hero-text text-4xl md:text-5xl">Get in Touch</h1>
+              <p className="text-[var(--text-secondary)] text-lg">
+                Have a question or want to work together? Drop us a message!
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium mb-2"
+                >
                   Name
                 </label>
                 <input
                   type="text"
                   id="name"
+                  name="name"
                   value={formData.name}
-                  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                  className={`w-full px-4 py-2 md:py-3 rounded-lg bg-primary/50 border ${errors.name ? 'border-red-500' : 'border-gray-700'} text-white focus:ring-2 focus:ring-accent focus:border-transparent outline-none`}
-                  placeholder="Your name"
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-2 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/50"
                 />
-                {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium mb-2"
+                >
                   Email
                 </label>
                 <input
                   type="email"
                   id="email"
+                  name="email"
                   value={formData.email}
-                  onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                  className={`w-full px-4 py-2 md:py-3 rounded-lg bg-primary/50 border ${errors.email ? 'border-red-500' : 'border-gray-700'} text-white focus:ring-2 focus:ring-accent focus:border-transparent outline-none`}
-                  placeholder="your.email@example.com"
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-2 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/50"
                 />
-                {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
               </div>
 
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-2">
-                  Subject
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  value={formData.subject}
-                  onChange={(e) => setFormData(prev => ({ ...prev, subject: e.target.value }))}
-                  className={`w-full px-4 py-2 md:py-3 rounded-lg bg-primary/50 border ${errors.subject ? 'border-red-500' : 'border-gray-700'} text-white focus:ring-2 focus:ring-accent focus:border-transparent outline-none`}
-                  placeholder="What's this about?"
-                />
-                {errors.subject && <p className="mt-1 text-sm text-red-500">{errors.subject}</p>}
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium mb-2"
+                >
                   Message
                 </label>
                 <textarea
                   id="message"
+                  name="message"
                   value={formData.message}
-                  onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
-                  rows={4}
-                  className={`w-full px-4 py-2 md:py-3 rounded-lg bg-primary/50 border ${errors.message ? 'border-red-500' : 'border-gray-700'} text-white focus:ring-2 focus:ring-accent focus:border-transparent outline-none resize-none`}
-                  placeholder="Your message here..."
+                  onChange={handleChange}
+                  required
+                  rows={6}
+                  className="w-full px-4 py-2 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/50"
                 />
-                {errors.message && <p className="mt-1 text-sm text-red-500">{errors.message}</p>}
               </div>
 
-              <button
+              {status.message && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className={`p-4 rounded-lg ${
+                    status.type === 'success'
+                      ? 'bg-green-500/10 text-green-500'
+                      : 'bg-red-500/10 text-red-500'
+                  }`}
+                >
+                  {status.message}
+                </motion.div>
+              )}
+
+              <motion.button
                 type="submit"
-                disabled={status === 'submitting'}
-                className={`w-full py-3 px-6 rounded-lg font-medium transition-all duration-200 ${
-                  status === 'submitting'
-                    ? 'bg-gray-500 cursor-not-allowed'
-                    : 'bg-accent hover:bg-accent/80'
-                }`}
+                disabled={isSubmitting}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="btn-premium w-full"
               >
-                {status === 'submitting' ? 'Sending...' : 'Send Message'}
-              </button>
-
-              {status === 'success' && (
-                <div className="mt-4 p-4 bg-green-500/20 border border-green-500 rounded-lg text-green-500 text-center">
-                  Message sent successfully!
-                </div>
-              )}
-
-              {status === 'error' && (
-                <div className="mt-4 p-4 bg-red-500/20 border border-red-500 rounded-lg text-red-500 text-center">
-                  {errorMessage}
-                </div>
-              )}
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+              </motion.button>
             </form>
           </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="mt-12 text-center text-gray-300"
-          >
-            <p>Or reach us at</p>
-            <a href="mailto:contact@app-nest.com" className="text-accent hover:underline">
-              contact@app-nest.com
-            </a>
-          </motion.div>
-        </motion.div>
-      </div>
+        </div>
+      </section>
     </main>
   );
 }
