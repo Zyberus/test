@@ -1,17 +1,13 @@
 [build]
-  command = "rm -rf .next && npm install --production=false && npm run build"
+  command = "npm install --production=false && npm run build"
   publish = ".next"
-  functions = "netlify/functions"
-  edge_functions = "netlify/edge-functions"
 
 [build.environment]
   NEXT_TELEMETRY_DISABLED = "1"
   NODE_VERSION = "18.17.0"
   NPM_VERSION = "9.x"
-  SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_GEMINI_API_KEY"
   NEXT_USE_NETLIFY_EDGE = "true"
   NEXT_FORCE_EDGE_IMAGES = "true"
-  NEXT_PRIVATE_TARGET = "server"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
@@ -27,20 +23,14 @@
   status = 200
 
 [[redirects]]
-  from = "/_next/image"
-  to = "/.netlify/functions/next-image"
-  status = 200
-
-[[redirects]]
   from = "/api/*"
-  to = "/.netlify/functions/nextjs-server"
+  to = "/.netlify/functions/nextjs-server/api/:splat"
   status = 200
 
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/nextjs-server"
   status = 200
-  force = true
 
 [[headers]]
   for = "/api/*"
