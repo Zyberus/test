@@ -40,12 +40,21 @@ export default function ChatPage() {
         body: JSON.stringify({ message: userMessage }),
       });
 
-      if (!response.ok) {
-        const error = await response.text();
-        throw new Error(error || 'Failed to get response');
+      const responseText = await response.text();
+      console.log('Raw response:', responseText);
+
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (e) {
+        console.error('Failed to parse response:', e);
+        throw new Error('Invalid response format from server');
       }
 
-      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to get response');
+      }
+
       if (!data.response) {
         throw new Error('Invalid response format');
       }
