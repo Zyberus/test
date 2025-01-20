@@ -34,8 +34,31 @@
 }
 
 @layer components {
+  .section-padding {
+    @apply py-[var(--space-l)];
+  }
+
   .container-width {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .hero-text {
+    @apply bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent font-bold;
+  }
+
+  .btn-premium {
+    @apply bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 py-4 rounded-full 
+           hover:from-blue-600 hover:to-purple-600 transition-all duration-300 shadow-lg shadow-blue-500/20;
+  }
+
+  .premium-card {
+    @apply bg-zinc-900/50 backdrop-blur-sm p-8 rounded-2xl border border-zinc-800/50
+           hover:bg-zinc-900/70 hover:border-zinc-700/50 transition-all duration-300;
+  }
+
+  .glass-effect {
+    @apply bg-zinc-900/80 backdrop-blur-lg border border-zinc-800/50 hover:bg-zinc-900/90 
+           hover:border-zinc-700/50 transition-all duration-300;
   }
 
   .btn {
@@ -52,10 +75,6 @@
 
   .text-gradient {
     @apply bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent;
-  }
-
-  .glass-effect {
-    @apply bg-zinc-900/80 backdrop-blur-lg border-b border-zinc-800/50;
   }
 }
 

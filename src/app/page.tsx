@@ -62,7 +62,7 @@ export default function Home() {
           <div className="absolute bottom-1/4 -right-20 w-40 h-40 bg-[var(--accent)] rounded-full blur-[100px] opacity-20" />
         </motion.div>
 
-        <div className="container-width relative">
+        <div className="container-width">
           <div className="grid lg:grid-cols-2 gap-[var(--space-m)] items-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -145,7 +145,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Work Section */}
+      {/* Features Section */}
       <section className="section-padding relative">
         <div className="container-width">
           <motion.div
@@ -156,33 +156,30 @@ export default function Home() {
             className="text-center space-y-[var(--space-s)] mb-[var(--space-xl)]"
           >
             <h2 className="hero-text text-4xl md:text-5xl">
-              Expertise
+              Our Services
             </h2>
-            <p className="text-[var(--text-secondary)] text-xl max-w-2xl mx-auto">
-              Bringing your web projects to life with modern technologies and creative solutions.
+            <p className="text-[var(--text-secondary)] text-lg max-w-2xl mx-auto">
+              We specialize in creating modern, responsive, and user-friendly web applications
+              using the latest technologies and best practices.
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-[var(--space-m)]">
-            {features.map((feature, i) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-[var(--space-m)]">
+            {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="premium-card group"
               >
                 <div className="relative mb-[var(--space-xs)]">
-                  {feature.icon}
                   <div className="absolute -inset-1 bg-[var(--accent)]/10 blur-lg rounded-full group-hover:bg-[var(--accent)]/20 transition-colors" />
+                  {feature.icon}
                 </div>
-                <h3 className="text-xl font-semibold mb-2">
-                  {feature.title}
-                </h3>
-                <p className="text-[var(--text-secondary)]">
-                  {feature.description}
-                </p>
+                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                <p className="text-[var(--text-secondary)]">{feature.description}</p>
               </motion.div>
             ))}
           </div>
@@ -190,7 +187,26 @@ export default function Home() {
       </section>
 
       {/* Portfolio Section */}
-      <PortfolioSection />
+      <section className="section-padding relative">
+        <div className="container-width">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center space-y-[var(--space-s)] mb-[var(--space-xl)]"
+          >
+            <h2 className="hero-text text-4xl md:text-5xl">
+              Featured Work
+            </h2>
+            <p className="text-[var(--text-secondary)] text-lg max-w-2xl mx-auto">
+              Explore our latest projects and creative solutions that push the boundaries of modern web development
+            </p>
+          </motion.div>
+
+          <PortfolioSection />
+        </div>
+      </section>
 
       {/* CTA Section */}
       <section className="section-padding">
@@ -210,13 +226,15 @@ export default function Home() {
               <p className="text-[var(--text-secondary)] text-lg">
                 Let's create stunning web experiences together.
               </p>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="btn-premium"
-              >
-                Start a Project
-              </motion.button>
+              <Link href="/contact">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="btn-premium"
+                >
+                  Start a Project
+                </motion.button>
+              </Link>
             </div>
           </motion.div>
         </div>
