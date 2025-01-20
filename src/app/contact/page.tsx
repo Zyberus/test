@@ -23,10 +23,18 @@ export default function ContactPage() {
     setIsSubmitting(true);
     setStatus({ type: null, message: '' });
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
-    const contactUrl = `${apiUrl}/api/contact`;
+    // In development, use relative URL
+    let contactUrl = '/api/contact';
+    
+    // In production, use absolute URL if NEXT_PUBLIC_API_URL is set
+    if (process.env.NEXT_PUBLIC_API_URL) {
+      // Remove trailing slash if present
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, '');
+      contactUrl = `${baseUrl}/api/contact`;
+    }
 
     try {
+      console.log('Submitting to:', contactUrl); // Debug log
       const response = await fetch(contactUrl, {
         method: 'POST',
         headers: {
