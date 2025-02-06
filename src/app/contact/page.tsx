@@ -120,7 +120,7 @@ export default function ContactPage() {
                   className="block w-full bg-[#1A1F2C]/50 border border-white/10 rounded-lg px-4 py-3
                            text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50
                            relative transition duration-200"
-                  placeholder="John Doe"
+                  placeholder="Rayan Khan"
                 />
               </div>
             </div>
@@ -142,7 +142,7 @@ export default function ContactPage() {
                   className="block w-full bg-[#1A1F2C]/50 border border-white/10 rounded-lg px-4 py-3
                            text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50
                            relative transition duration-200"
-                  placeholder="john@example.com"
+                  placeholder="zyberusx@gmail.com"
                 />
               </div>
             </div>
