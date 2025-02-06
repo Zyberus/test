@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { chatService, type ChatMessage } from '@/lib/chat-service';
 
 export default function ChatPage() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -16,22 +17,25 @@ export default function ChatPage() {
     scrollToBottom();
   }, [messages]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputMessage.trim() || isLoading) return;
 
-    const userMessage = { text: inputMessage, isUser: true };
+    const userMessage: ChatMessage = { text: inputMessage, isUser: true };
     setMessages(prev => [...prev, userMessage]);
     setInputMessage('');
     setIsLoading(true);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      const botMessage = { text: "This is a sample response from Zyberus Chat.", isUser: false };
+      const response = await chatService.sendMessage(inputMessage);
+      const botMessage: ChatMessage = { text: response, isUser: false };
       setMessages(prev => [...prev, botMessage]);
     } catch (error) {
-      const errorMessage = { text: "Sorry, there was an error processing your request.", isUser: false, isError: true };
+      const errorMessage: ChatMessage = { 
+        text: "Sorry, there was an error processing your request. Please try again.", 
+        isUser: false, 
+        isError: true 
+      };
       setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
@@ -57,11 +61,15 @@ export default function ChatPage() {
               </div>
             </div>
             <button
-              onClick={() => setMessages([])}
+              onClick={async () => {
+                setMessages([]);
+                await chatService.resetChat();
+              }}
               className="p-2 hover:bg-white/5 rounded-lg transition-colors"
+              aria-label="Clear chat"
             >
               <svg className="w-6 h-6 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
               </svg>
             </button>
           </header>
