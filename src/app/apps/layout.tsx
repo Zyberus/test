@@ -12,7 +12,7 @@ export default function AppsLayout({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen bg-black"
+      className="relative min-h-screen bg-black pt-20"
     >
       {children}
     </motion.div>

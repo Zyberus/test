@@ -156,6 +156,8 @@ const HeroCanvas = () => {
     })
 
     return () => {
+      controls.dispose()
+      renderer.dispose()
       window.removeEventListener('resize', handleResize)
       window.removeEventListener('mousemove', handleMouseMove)
       scene.remove(torus)
@@ -164,8 +166,6 @@ const HeroCanvas = () => {
       material.dispose()
       particlesGeometry.dispose()
       particlesMaterial.dispose()
-      renderer.dispose()
-      controls.dispose()
     }
   }, [])
 

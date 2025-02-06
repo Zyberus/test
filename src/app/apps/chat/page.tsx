@@ -1,18 +1,12 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import dynamic from 'next/dynamic';
-
-const ParticleBackground = dynamic(() => import('@/components/ParticleBackground'), {
-  ssr: false
-});
+import { useState, useRef, useEffect } from 'react';
 
 export default function ChatPage() {
-  const [messages, setMessages] = useState<Array<{text: string, isUser: boolean, isError?: boolean}>>([]);
+  const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -22,198 +16,166 @@ export default function ChatPage() {
     scrollToBottom();
   }, [messages]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!inputMessage.trim()) return;
+    if (!inputMessage.trim() || isLoading) return;
 
-    const userMessage = inputMessage.trim();
+    const userMessage = { text: inputMessage, isUser: true };
+    setMessages(prev => [...prev, userMessage]);
     setInputMessage('');
-    setMessages(prev => [...prev, { text: userMessage, isUser: true }]);
     setIsLoading(true);
 
     try {
-      console.log('Sending message:', userMessage);
-      
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({ message: userMessage }),
-      });
-
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        console.error('Invalid content type:', contentType);
-        throw new Error('Server returned non-JSON response');
-      }
-
-      const data = await response.json();
-      console.log('Server response:', data);
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to get response');
-      }
-
-      if (!data.response) {
-        throw new Error('Invalid response format');
-      }
-
-      setMessages(prev => [...prev, { text: data.response, isUser: false }]);
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      const botMessage = { text: "This is a sample response from Zyberus Chat.", isUser: false };
+      setMessages(prev => [...prev, botMessage]);
     } catch (error) {
-      console.error('Chat Error:', error);
-      const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
-      setMessages(prev => [...prev, {
-        text: `Error: ${errorMessage}`,
-        isUser: false,
-        isError: true
-      }]);
+      const errorMessage = { text: "Sorry, there was an error processing your request.", isUser: false, isError: true };
+      setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-zinc-900 to-black relative">
-      <ParticleBackground />
-      
-      <div className="relative z-10 container mx-auto px-4 py-24">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-4xl mx-auto bg-zinc-900/50 backdrop-blur-lg rounded-2xl shadow-2xl border border-zinc-800/50 overflow-hidden"
-        >
-          {/* Header */}
-          <div className="p-6 border-b border-zinc-800/50">
-            <div className="flex items-center space-x-4">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="w-10 h-10"
-              >
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" 
-                        stroke="currentColor" className="text-blue-400" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M3.3 7L12 12.2 20.7 7" stroke="currentColor" className="text-blue-400" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M12 22.1V12" stroke="currentColor" className="text-blue-400" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <main className="h-[calc(100vh-80px)]">
+      <div className="flex h-full overflow-hidden bg-[#0A0F1C] relative">
+        {/* Main Chat Area */}
+        <div className="flex-1 flex flex-col h-full relative bg-gradient-to-b from-[#0A0F1C] to-[#0D1117]">
+          {/* Chat Header */}
+          <header className="flex items-center justify-between px-4 py-3 bg-[#0D1117]/90 backdrop-blur-lg border-b border-white/10">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 p-1.5">
+                <svg className="w-full h-full text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                 </svg>
-              </motion.div>
+              </div>
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                  Zyberus
-                </h1>
-                <p className="text-zinc-400 text-sm">AI Assistant</p>
+                <h1 className="text-lg font-semibold text-white">Zyberus Chat</h1>
+                <p className="text-sm text-zinc-400">AI-powered chat assistant</p>
               </div>
             </div>
-          </div>
+            <button
+              onClick={() => setMessages([])}
+              className="p-2 hover:bg-white/5 rounded-lg transition-colors"
+            >
+              <svg className="w-6 h-6 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+            </button>
+          </header>
 
-          {/* Chat Messages */}
-          <div className="h-[600px] overflow-y-auto p-6">
-            <div className="space-y-6">
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-center"
-              >
-                <h2 className="text-4xl font-bold mb-3">
-                  Welcome to <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Zyberus</span>
+          {/* Messages Container */}
+          <div className="flex-1 overflow-y-auto">
+            {messages.length === 0 ? (
+              <div className="h-full flex flex-col items-center justify-center p-8 text-center">
+                <div className="w-16 h-16 mb-8 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-500 p-3">
+                  <svg className="w-full h-full text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                          d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                  </svg>
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-bold mb-3 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  Welcome to Zyberus Chat
                 </h2>
-                <p className="text-zinc-400">
-                  Your personal AI assistant. How may I help you today?
+                <p className="text-zinc-400 max-w-md text-sm sm:text-base">
+                  Your advanced AI assistant, ready to help with any task. Start a conversation by typing a message below.
                 </p>
-              </motion.div>
-              
-              <AnimatePresence>
+              </div>
+            ) : (
+              <div className="pb-32">
                 {messages.map((message, index) => (
-                  <motion.div
+                  <div
                     key={index}
-                    initial={{ opacity: 0, x: message.isUser ? 20 : -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: message.isUser ? 20 : -20 }}
-                    transition={{ duration: 0.3 }}
-                    className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
+                    className={`px-4 py-6 ${message.isUser ? 'bg-transparent' : 'bg-[#0D1117]'}`}
                   >
-                    <div
-                      className={`max-w-[85%] p-4 rounded-xl ${
-                        message.isUser
-                          ? 'bg-blue-500/20 border border-blue-500/30'
-                          : message.isError
-                            ? 'bg-red-500/20 border border-red-500/30'
-                            : 'bg-zinc-800/50 border border-zinc-700/30'
-                      }`}
-                    >
-                      <div className={`whitespace-pre-wrap ${
+                    <div className="max-w-3xl mx-auto flex space-x-4">
+                      <div className={`flex-shrink-0 w-8 h-8 rounded-lg ${
                         message.isUser 
-                          ? 'text-blue-100' 
-                          : message.isError 
-                            ? 'text-red-300' 
-                            : 'text-zinc-100'
+                          ? 'bg-gradient-to-r from-purple-500 to-pink-500' 
+                          : 'bg-gradient-to-r from-blue-500 to-purple-500'
+                      } p-1.5`}>
+                        {message.isUser ? (
+                          <svg className="w-full h-full text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                          </svg>
+                        ) : (
+                          <svg className="w-full h-full text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                                  d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                          </svg>
+                        )}
+                      </div>
+                      <div className={`flex-1 prose prose-invert max-w-none ${
+                        message.isError ? 'text-red-400' : 'text-zinc-100'
                       }`}>
-                        {message.text}
+                        <p className="leading-relaxed whitespace-pre-wrap break-words text-[15px] mb-0">
+                          {message.text}
+                        </p>
                       </div>
                     </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-              
-              {isLoading && (
-                <motion.div 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="flex justify-start"
-                >
-                  <div className="flex space-x-2 p-4">
-                    {[0, 1, 2].map((i) => (
-                      <motion.div
-                        key={i}
-                        animate={{ 
-                          scale: [1, 1.2, 1],
-                          opacity: [0.3, 1, 0.3]
-                        }}
-                        transition={{ 
-                          duration: 1, 
-                          repeat: Infinity, 
-                          delay: i * 0.2,
-                          ease: "easeInOut"
-                        }}
-                        className="w-2 h-2 rounded-full bg-blue-400"
-                      />
-                    ))}
                   </div>
-                </motion.div>
-              )}
-
-              <div ref={messagesEndRef} />
-            </div>
+                ))}
+                {isLoading && (
+                  <div className="px-4 py-6 bg-[#0D1117]">
+                    <div className="max-w-3xl mx-auto flex items-center space-x-4">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 p-1.5">
+                        <svg className="w-full h-full text-white animate-spin" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" 
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                      </div>
+                      <div className="flex space-x-2">
+                        <div className="w-2 h-2 rounded-full bg-blue-400 animate-bounce" style={{ animationDelay: '0ms' }} />
+                        <div className="w-2 h-2 rounded-full bg-blue-400 animate-bounce" style={{ animationDelay: '150ms' }} />
+                        <div className="w-2 h-2 rounded-full bg-blue-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+            <div ref={messagesEndRef} />
           </div>
 
           {/* Input Area */}
-          <div className="p-6 border-t border-zinc-800/50 bg-zinc-900/50">
-            <form onSubmit={handleSubmit} className="flex space-x-4">
-              <input
-                type="text"
-                value={inputMessage}
-                onChange={(e) => setInputMessage(e.target.value)}
-                placeholder="Type your message..."
-                className="flex-1 bg-zinc-800/50 text-white border border-zinc-700/50 rounded-xl px-4 py-3
-                         placeholder:text-zinc-500 focus:outline-none focus:border-blue-500/50
-                         focus:ring-1 focus:ring-blue-500/50 transition-all duration-300"
-              />
-              <motion.button
-                type="submit"
-                disabled={isLoading}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 py-3 rounded-xl font-medium
-                         hover:from-blue-600 hover:to-purple-600 disabled:opacity-50 disabled:cursor-not-allowed 
-                         transition-all duration-300 shadow-lg shadow-blue-500/20"
-              >
-                Send
-              </motion.button>
-            </form>
+          <div className="absolute bottom-0 left-0 right-0">
+            <div className="bg-gradient-to-t from-[#0A0F1C] via-[#0A0F1C] to-transparent pt-20">
+              <div className="bg-[#0D1117]/90 backdrop-blur-xl border-t border-white/10 px-4 py-4">
+                <div className="max-w-3xl mx-auto">
+                  <form onSubmit={handleSubmit} className="relative">
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg opacity-20 group-hover:opacity-30 transition duration-300" />
+                    <div className="relative flex items-center">
+                      <input
+                        type="text"
+                        value={inputMessage}
+                        onChange={(e) => setInputMessage(e.target.value)}
+                        placeholder="Message Zyberus..."
+                        className="w-full bg-[#1A1F2C] text-white rounded-lg pl-4 pr-12 py-3
+                                 border border-white/10 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20
+                                 placeholder-zinc-500 text-[15px]"
+                      />
+                      <button
+                        type="submit"
+                        disabled={isLoading || !inputMessage.trim()}
+                        className="absolute right-2 p-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500
+                                 text-white disabled:opacity-50 disabled:cursor-not-allowed
+                                 hover:from-blue-600 hover:to-purple-600 transition-all duration-200"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </main>
   );

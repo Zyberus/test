@@ -24,11 +24,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${inter.className} min-h-screen bg-[var(--primary)] text-[var(--text-primary)]`}>
-        <div className="flex flex-col min-h-screen">
+        <div className="relative">
           <Header />
-          <main className="flex-grow">
+          <div className="relative">
             {children}
-          </main>
+          </div>
         </div>
       </body>
     </html>

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
@@ -200,7 +200,8 @@ export default function Home() {
               Featured Work
             </h2>
             <p className="text-[var(--text-secondary)] text-lg max-w-2xl mx-auto">
-              Explore our latest projects and creative solutions that push the boundaries of modern web development
+              Explore our latest projects and see how we bring ideas to life
+              through modern web development and design.
             </p>
           </motion.div>
 

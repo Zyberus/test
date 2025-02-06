@@ -295,21 +295,6 @@ const PortfolioSection = () => {
       )}
       
       <div className="container mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="text-center space-y-6 mb-20"
-        >
-          <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-            Featured Work
-          </h2>
-          <p className="text-gray-400 text-xl max-w-2xl mx-auto leading-relaxed">
-            Explore our latest projects and creative solutions that push the boundaries of modern web development
-          </p>
-        </motion.div>
-
         <motion.div 
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
           initial={{ opacity: 0 }}
