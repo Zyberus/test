@@ -1,18 +1,18 @@
 # dependencies
-node_modules/
-.pnp/
+/node_modules
+/.pnp
 .pnp.js
 
 # testing
-coverage/
+/coverage
 
 # next.js
-.next/
-out/
+/.next/
+/out/
 
 # production
-build/
-dist/
+/build
+/dist
 
 # misc
 .DS_Store
@@ -26,6 +26,9 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+.env.development
+.env.test
+.env.production
 
 # vercel
 .vercel
@@ -33,3 +36,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+<<<<<<< HEAD
+=======
+
+# IDE
+.idea
+.vscode
+
+# Netlify
+.netlify
+/netlify/
+>>>>>>> 14f9fd3352480542b074d9f678bde0cc2d8bda30
