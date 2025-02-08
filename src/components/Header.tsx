@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation'
 
 const links = [
   { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
   { href: '/features', label: 'Features' },
   { href: '/apps/chat', label: 'Zyberus Chat' },
   { href: '/contact', label: 'Contact' }
