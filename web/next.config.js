@@ -3,8 +3,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({enabled: process.en
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  distDir: 'out',
-  cleanDistDir: true,
+  distDir: '.next',
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -36,8 +35,17 @@ const nextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
-  // Headers will be handled by Netlify
-  headers: () => []
+  // Ensure all pages are generated
+  exportPathMap: async function() {
+    return {
+      '/': { page: '/' },
+      '/about': { page: '/about' },
+      '/contact': { page: '/contact' },
+      '/features': { page: '/features' },
+      '/apps/chat': { page: '/apps/chat' },
+      '/apps/image-converter': { page: '/apps/image-converter' },
+    };
+  },
 };
 
 module.exports = withBundleAnalyzer(nextConfig);

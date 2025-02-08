@@ -41,21 +41,15 @@
     Cross-Origin-Resource-Policy = "cross-origin"
     Cache-Control = "public, max-age=0, must-revalidate"
 
+# First, handle specific routes
 [[redirects]]
-  from = "/*"
-  to = "/404.html"
-  status = 404
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/apps/chat"
+  to = "/apps/chat/index.html"
   status = 200
-  force = true
 
-# Handle client-side routing
 [[redirects]]
-  from = "/apps/*"
-  to = "/apps/:splat/index.html"
+  from = "/apps/image-converter"
+  to = "/apps/image-converter/index.html"
   status = 200
 
 [[redirects]]
@@ -72,3 +66,16 @@
   from = "/features"
   to = "/features/index.html"
   status = 200
+
+# Then handle 404
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
+
+# Finally, catch-all for SPA
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false
