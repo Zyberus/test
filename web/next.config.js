@@ -2,11 +2,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({enabled: process.en
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Force static generation
-  experimental: {
-    appDir: true,
-    serverActions: false
-  },
+
   output: 'export',
   images: {
     unoptimized: true,
