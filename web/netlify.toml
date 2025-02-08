@@ -1,5 +1,5 @@
 [build]
-  command = "npm run clean:build && npm run build"
+  command = "npm run clean:build && npm run build && ls -la out/ && ls -la out/apps/"
   publish = "out"
 
 [build.environment]
