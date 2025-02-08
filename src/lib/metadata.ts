@@ -2,8 +2,8 @@ export const siteConfig = {
   name: 'App-Nest',
   title: 'App-Nest - Professional Software Development & AI Solutions | Web & Mobile Apps',
   description: 'App-Nest is your trusted partner for professional software development, specializing in AI-powered web and mobile applications. Experience innovative solutions with our expert team led by Rayan Khan.',
-  url: 'https://app-nest.netlify.app',
-  ogImage: 'https://app-nest.netlify.app/og-image.png',
+  url: 'https://app-nest.com',
+  ogImage: 'https://app-nest.com/og-image.png',
   keywords: [
     'app nest',
     'app-nest',
@@ -118,7 +118,7 @@ export const getMetadata = (options?: {
       },
     },
     verification: {
-      google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+      google: 't1EyKPX7gMEYww-o36d5K3g_21g50mQxHp6xft0J-kw',
       yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION,
       yahoo: process.env.NEXT_PUBLIC_YAHOO_VERIFICATION,
     },
