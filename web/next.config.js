@@ -1,6 +1,10 @@
+const withBundleAnalyzer = require('@next/bundle-analyzer')({enabled: process.env.ANALYZE === 'true'});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
+  distDir: 'out',
+  cleanDistDir: true,
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -36,4 +40,4 @@ const nextConfig = {
   headers: () => []
 };
 
-module.exports = nextConfig;
+module.exports = withBundleAnalyzer(nextConfig);

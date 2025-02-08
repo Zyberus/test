@@ -1,6 +1,7 @@
 [build]
   command = "npm run clean:build && npm run build"
   publish = "out"
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ./"
 
 [build.environment]
   NODE_ENV = "production"
@@ -42,5 +43,32 @@
 
 [[redirects]]
   from = "/*"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/*"
   to = "/index.html"
+  status = 200
+  force = true
+
+# Handle client-side routing
+[[redirects]]
+  from = "/apps/*"
+  to = "/apps/:splat/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/about"
+  to = "/about/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/contact"
+  to = "/contact/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/features"
+  to = "/features/index.html"
   status = 200

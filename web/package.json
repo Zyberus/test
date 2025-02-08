@@ -7,11 +7,13 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build && touch out/.nojekyll",
+    "analyze": "ANALYZE=true next build",
+    "build": "next build && cp -r public/* out/ && touch out/.nojekyll",
     "start": "next start",
     "lint": "next lint",
     "clean": "rm -rf .next out node_modules",
-    "clean:build": "rm -rf .next out"
+    "clean:build": "rm -rf .next out",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.6",
