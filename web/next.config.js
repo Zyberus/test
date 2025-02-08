@@ -28,30 +28,12 @@ const nextConfig = {
   compress: true,
   reactStrictMode: true,
   swcMinify: true,
+  trailingSlash: true,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'Cross-Origin-Embedder-Policy',
-            value: 'require-corp'
-          },
-          {
-            key: 'Cross-Origin-Opener-Policy',
-            value: 'same-origin'
-          },
-          {
-            key: 'Cross-Origin-Resource-Policy',
-            value: 'cross-origin'
-          }
-        ]
-      }
-    ];
-  }
+  // Headers will be handled by Netlify
+  headers: () => []
 };
 
 module.exports = nextConfig;
