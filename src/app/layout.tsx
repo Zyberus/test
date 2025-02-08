@@ -1,20 +1,11 @@
-import '@/styles/globals.css';
 import { Inter } from 'next/font/google';
-import type { Metadata } from 'next';
-import dynamic from 'next/dynamic';
-
-const Header = dynamic(() => import('@/components/Header'), { ssr: true });
+import { getMetadata } from '@/lib/metadata';
+import { Header } from '@/components/Header';
+import '@/styles/globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata: Metadata = {
-  title: 'App-Nest - Building the Future',
-  description: 'App-Nest is a leading software development company specializing in web and mobile applications.',
-  viewport: 'width=device-width, initial-scale=1',
-  icons: {
-    icon: '/favicon.ico',
-  },
-};
+export const metadata = getMetadata();
 
 export default function RootLayout({
   children,
@@ -23,13 +14,39 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className={`${inter.className} min-h-screen bg-[var(--primary)] text-[var(--text-primary)]`}>
-        <div className="relative">
-          <Header />
-          <div className="relative">
-            {children}
-          </div>
-        </div>
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#0A0F1C" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'App-Nest',
+              url: 'https://app-nest.netlify.app',
+              logo: 'https://app-nest.netlify.app/logo.png',
+              description: 'Leading software development company specializing in web and mobile applications.',
+              founder: {
+                '@type': 'Person',
+                name: 'Rayan Khan',
+              },
+              sameAs: [
+                'https://twitter.com/appnest',
+                'https://github.com/app-nest-x',
+                'https://linkedin.com/company/app-nest',
+              ],
+            }),
+          }}
+        />
+      </head>
+      <body className={inter.className}>
+        <Header />
+        {children}
       </body>
     </html>
   );
