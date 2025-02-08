@@ -7,15 +7,18 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 const ParticleBackground = dynamic(() => import('@/components/particle-background'), {
-  ssr: false
+  ssr: false,
+  loading: () => <div className="absolute inset-0 bg-[var(--primary)]"></div>
 })
 
 const PortfolioSection = dynamic(() => import('@/components/PortfolioSection'), {
-  ssr: false
+  ssr: false,
+  loading: () => <div className="min-h-screen flex items-center justify-center">Loading...</div>
 })
 
 const HeroCanvas = dynamic(() => import('@/components/HeroCanvas'), {
-  ssr: false
+  ssr: false,
+  loading: () => <div className="h-full w-full flex items-center justify-center bg-[var(--primary)]">Loading 3D Scene...</div>
 })
 
 const features = [
