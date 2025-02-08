@@ -1,7 +1,6 @@
 [build]
   command = "npm run clean:build && npm run build"
   publish = "out"
-  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ./"
 
 [build.environment]
   NODE_ENV = "production"
@@ -41,14 +40,22 @@
     Cross-Origin-Resource-Policy = "cross-origin"
     Cache-Control = "public, max-age=0, must-revalidate"
 
-# First, handle specific routes
+# Handle 404 first
 [[redirects]]
-  from = "/apps/chat"
+  from = "/*"
+  to = "/404.html"
+  status = 404
+  force = true
+  conditions = {Response.status = 404}
+
+# Handle specific routes
+[[redirects]]
+  from = "/apps/chat/*"
   to = "/apps/chat/index.html"
   status = 200
 
 [[redirects]]
-  from = "/apps/image-converter"
+  from = "/apps/image-converter/*"
   to = "/apps/image-converter/index.html"
   status = 200
 
@@ -67,15 +74,13 @@
   to = "/features/index.html"
   status = 200
 
-# Then handle 404
 [[redirects]]
-  from = "/*"
-  to = "/404.html"
-  status = 404
+  from = "/portfolio"
+  to = "/portfolio/index.html"
+  status = 200
 
-# Finally, catch-all for SPA
+# SPA fallback
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-  force = false
