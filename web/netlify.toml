@@ -5,21 +5,18 @@
 [build.environment]
   NODE_ENV = "production"
   NEXT_TELEMETRY_DISABLED = "1"
-  SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_GEMINI_API_KEY"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
 [[headers]]
   for = "/*"
   [headers.values]
-    Content-Security-Policy = "default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data:; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' data: https:;"
+    Content-Security-Policy = "default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: app-nest.com *.app-nest.com; img-src 'self' data: https: blob: app-nest.com *.app-nest.com; style-src 'self' 'unsafe-inline' https: app-nest.com *.app-nest.com; font-src 'self' data: https: app-nest.com *.app-nest.com; connect-src 'self' https: wss: app-nest.com *.app-nest.com; frame-src 'self' https: app-nest.com *.app-nest.com;"
     Referrer-Policy = "strict-origin-when-cross-origin"
     X-Content-Type-Options = "nosniff"
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "X-Requested-With, Content-Type, Authorization"
