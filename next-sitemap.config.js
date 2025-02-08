@@ -1,37 +1,55 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: 'https://app-nest.netlify.app',
+  siteUrl: 'https://app-nest.com',
   generateRobotsTxt: true,
-  generateIndexSitemap: false,
+  generateIndexSitemap: true,
+  sitemapSize: 7000,
   priority: 1.0,
   changefreq: 'daily',
-  exclude: ['/404', '/500'],
+  exclude: [
+    '/404',
+    '/500',
+    '/private/*',
+    '/admin/*',
+    '/*.json',
+  ],
   robotsTxtOptions: {
     policies: [
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/private/', '/admin/'],
+        disallow: ['/private/', '/admin/', '/*.json'],
+      },
+      {
+        userAgent: 'Googlebot',
+        allow: '/',
+        crawlDelay: 1,
+      },
+      {
+        userAgent: 'Bingbot',
+        allow: '/',
+        crawlDelay: 1,
       },
     ],
     additionalSitemaps: [
-      'https://app-nest.netlify.app/sitemap.xml',
+      'https://app-nest.com/sitemap.xml',
+      'https://app-nest.com/sitemap-index.xml',
     ],
   },
   transform: async (config, path) => {
-    // Custom transform function (optional)
+    // Custom transform function
     return {
-      loc: path, // => this will be exported as http(s)://<config.siteUrl>/<path>
-      changefreq: config.changefreq,
-      priority: config.priority,
+      loc: path,
+      changefreq: path === '/' ? 'daily' : 'weekly',
+      priority: path === '/' ? 1.0 : 0.8,
       lastmod: new Date().toISOString(),
       alternateRefs: [
         {
-          href: `https://app-nest.netlify.app${path}`,
+          href: `https://app-nest.com${path}`,
           hreflang: 'x-default',
         },
         {
-          href: `https://app-nest.netlify.app/en${path}`,
+          href: `https://app-nest.com/en${path}`,
           hreflang: 'en',
         },
       ],

@@ -2,8 +2,8 @@ export const siteConfig = {
   name: 'App-Nest',
   title: 'App-Nest - Professional Software Development & AI Solutions | Web & Mobile Apps',
   description: 'App-Nest is your trusted partner for professional software development, specializing in AI-powered web and mobile applications. Experience innovative solutions with our expert team led by Rayan Khan.',
-  url: 'https://app-nest.com',
-  ogImage: 'https://app-nest.com/og-image.png',
+  url: 'https://appnest.ai', // updated domain
+  ogImage: 'https://appnest.ai/og-image.png', // updated domain
   keywords: [
     'app nest',
     'app-nest',
