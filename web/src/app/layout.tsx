@@ -31,8 +31,8 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@type': 'Organization',
               name: 'App-Nest',
-              url: 'https://app-nest.netlify.app',
-              logo: 'https://app-nest.netlify.app/logo.png',
+              url: 'https://app-nest.com',
+              logo: 'https://app-nest.com/logo.png',
               description: 'Leading software development company specializing in web and mobile applications.',
               founder: {
                 '@type': 'Person',
