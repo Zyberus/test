@@ -7,13 +7,12 @@ import { usePathname } from 'next/navigation'
 
 const links = [
   { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
   { href: '/features', label: 'Features' },
-  { href: '/contact', label: 'Contact' },
-  { href: '/apps/chat', label: 'Zyberus Chat' }
+  { href: '/apps/chat', label: 'Zyberus Chat' },
+  { href: '/contact', label: 'Contact' }
 ]
 
-const Header = () => {
+export function Header() {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const { scrollY } = useScroll()
@@ -186,4 +185,5 @@ const Header = () => {
   )
 }
 
-export default Header
+// Default export for dynamic import
+export default Header;

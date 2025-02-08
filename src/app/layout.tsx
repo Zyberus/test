@@ -1,7 +1,9 @@
 import { Inter } from 'next/font/google';
 import { getMetadata } from '@/lib/metadata';
-import { Header } from '@/components/Header';
+import dynamic from 'next/dynamic';
 import '@/styles/globals.css';
+
+const Header = dynamic(() => import('@/components/Header').then(mod => mod.default), { ssr: true });
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -44,9 +46,13 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className}>
-        <Header />
-        {children}
+      <body className={`${inter.className} min-h-screen bg-[#0A0F1C] text-white`}>
+        <div className="relative">
+          <Header />
+          <main className="relative">
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   );
