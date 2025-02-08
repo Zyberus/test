@@ -1,5 +1,3 @@
-'use client';
-
 import { notFound } from 'next/navigation';
 
 export function generateStaticParams() {
@@ -16,5 +14,14 @@ export default function AppPage({ params }: { params: { app: string } }) {
     notFound();
   }
 
-  return null;
+  return (
+    <div className="min-h-screen">
+      {params.app === 'chat' && (
+        <div>Chat App Content</div>
+      )}
+      {params.app === 'image-converter' && (
+        <div>Image Converter Content</div>
+      )}
+    </div>
+  );
 }

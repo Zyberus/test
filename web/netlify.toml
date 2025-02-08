@@ -50,13 +50,13 @@
 
 # Handle specific routes
 [[redirects]]
-  from = "/apps/chat/*"
-  to = "/apps/chat/index.html"
+  from = "/apps/chat"
+  to = "/apps/chat.html"
   status = 200
 
 [[redirects]]
-  from = "/apps/image-converter/*"
-  to = "/apps/image-converter/index.html"
+  from = "/apps/image-converter"
+  to = "/apps/image-converter.html"
   status = 200
 
 [[redirects]]
