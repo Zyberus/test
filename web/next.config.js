@@ -2,7 +2,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({enabled: process.en
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-
   output: 'export',
   images: {
     unoptimized: true,
@@ -34,6 +33,32 @@ const nextConfig = {
   trailingSlash: true,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
+  },
+  // Explicitly define all routes for static export
+  exportPathMap: async function() {
+    return {
+      '/': { page: '/' },
+      '/about': { page: '/about' },
+      '/contact': { page: '/contact' },
+      '/features': { page: '/features' },
+      '/portfolio': { page: '/portfolio' },
+      '/apps/chat': { page: '/apps/chat' },
+      '/apps/image-converter': { page: '/apps/image-converter' },
+      '/404': { page: '/404' },
+      '/not-found': { page: '/not-found' },
+    };
+  },
+  // Ensure static generation works correctly
+  generateStaticParams: async () => {
+    return {
+      '/apps/chat': {},
+      '/apps/image-converter': {},
+    };
+  },
+  // Disable dynamic routes in production
+  experimental: {
+    appDir: true,
+    disableOptimizedLoading: true,
   },
 };
 

@@ -9,12 +9,12 @@
     "dev": "next dev",
     "analyze": "ANALYZE=true next build",
     "prebuild": "rm -rf .next out",
-    "build": "NODE_ENV=production next build && cp -r public/* out/ && touch out/.nojekyll && ls -la out/apps/",
+    "build": "NODE_ENV=production next build && next export -o out && cp -r public/* out/ && touch out/.nojekyll",
+    "postbuild": "next-sitemap --config next-sitemap.config.js && ls -la out/",
     "start": "next start",
     "lint": "next lint",
     "clean": "rm -rf .next out node_modules",
-    "clean:build": "rm -rf .next out",
-    "postbuild": "next-sitemap --config next-sitemap.config.js"
+    "clean:build": "rm -rf .next out"
   },
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.6",
