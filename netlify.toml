@@ -1,0 +1,81 @@
+[build]
+  command = "NODE_ENV=production npm run build"
+  publish = "out"
+
+[build.environment]
+  NODE_ENV = "production"
+  NEXT_TELEMETRY_DISABLED = "1"
+  NEXT_PUBLIC_URL = "https://app-nest.com"
+  NODE_VERSION = "18.17.0"
+  NEXT_STATIC_BUILD = "true"
+
+[build.processing]
+  skip_processing = false
+
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+[build.processing.images]
+  compress = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data:; img-src 'self' data: https: blob:; connect-src 'self' https: wss:;"
+
+# Handle specific routes first
+[[redirects]]
+  from = "/apps/chat/*"
+  to = "/apps/chat/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/apps/image-converter/*"
+  to = "/apps/image-converter/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/about"
+  to = "/about/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/contact"
+  to = "/contact/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/features"
+  to = "/features/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/portfolio"
+  to = "/portfolio/index.html"
+  status = 200
+
+# Handle 404
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
+
+# SPA fallback
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = true

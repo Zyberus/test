@@ -1,0 +1,11 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /404
+Disallow: /not-found
+
+# Host
+Host: https://app-nest.com
+
+# Sitemaps
+Sitemap: https://app-nest.com/sitemap.xml

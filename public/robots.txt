@@ -1,0 +1,23 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /private/
+Disallow: /admin/
+Disallow: /*.json
+
+# Googlebot
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Bingbot
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Host
+Host: https://app-nest.com
+
+# Sitemaps
+Sitemap: https://app-nest.com/sitemap.xml
+Sitemap: https://app-nest.com/sitemap-index.xml
