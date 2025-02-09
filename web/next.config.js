@@ -7,6 +7,17 @@ const logBuildInfo = (phase, info) => {
 };
 
 const nextConfig = {
+  // Explicitly define static pages
+  exportPathMap: async function (defaultPathMap) {
+    return {
+      '/': { page: '/' },
+      '/about': { page: '/about' },
+      '/contact': { page: '/contact' },
+      '/features': { page: '/features' },
+      '/apps/chat': { page: '/apps/chat' },
+      '/apps/image-converter': { page: '/apps/image-converter' },
+    };
+  },
   output: 'export',
   onBuildStart: () => {
     logBuildInfo('Build Start', 'Initiating static page generation');

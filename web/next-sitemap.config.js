@@ -21,6 +21,9 @@ module.exports = {
   generateIndexSitemap: false,
   outDir: 'out',
   exclude: ['/404', '/not-found'],
+  additionalPaths: async (config) => [
+    await config.transform(config, '/apps/image-converter'),
+  ],
   robotsTxtOptions: {
     policies: [
       {

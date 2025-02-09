@@ -4,8 +4,11 @@ import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Dropzone from '@/components/apps/image-converter/dropzone';
 
-// Force static generation
-export const dynamic = 'force-static';
+export const generateStaticParams = async () => {
+  return [];
+};
+
+export const revalidate = false;
 
 const ParticleBackground = dynamic(() => import('@/components/particle-background'), {
   ssr: false
