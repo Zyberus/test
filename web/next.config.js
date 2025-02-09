@@ -36,7 +36,7 @@ const nextConfig = {
   },
   // Explicitly define all routes for static export
   exportPathMap: async function() {
-    return {
+    const paths = {
       '/': { page: '/' },
       '/about': { page: '/about' },
       '/contact': { page: '/contact' },
@@ -46,22 +46,28 @@ const nextConfig = {
       '/apps/image-converter': { page: '/apps/image-converter' },
       '/404': { page: '/404' },
       '/not-found': { page: '/not-found' },
-      '/api/chat': { page: '/api/chat' },
-      '/api/contact': { page: '/api/contact' },
-      '/robots.txt': { page: '/robots.txt' },
-      '/sitemap.xml': { page: '/sitemap.xml' }
     };
+
+    return paths;
   },
   // Ensure static generation works correctly
   experimental: {
     appDir: true,
     disableOptimizedLoading: true,
     workerThreads: true,
-    cpus: 4
+    cpus: 4,
+    // Enable static generation for app directory
+    enableAppDir: true,
   },
   // Increase memory limit for build
   env: {
     NODE_OPTIONS: '--max-old-space-size=4096'
+  },
+  // Ensure all pages are generated
+  pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
+  distDir: '.next',
+  generateBuildId: async () => {
+    return 'build-' + Date.now();
   }
 };
 
