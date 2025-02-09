@@ -11,6 +11,9 @@ TEST*.xml
 # Next.js
 /.next/
 /out/
+**/.next/
+**/node_modules/
+**/*.node
 
 # Production
 /build
@@ -63,3 +66,4 @@ next-env.d.ts
 
 # Cache
 .cache/
+**/*.pack
