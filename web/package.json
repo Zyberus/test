@@ -12,7 +12,8 @@
     "clean:build": "rm -rf .next out",
     "prebuild": "npm run clean:build",
     "build": "next build && cp -r public/* out/ && touch out/.nojekyll",
-    "postbuild": "next-sitemap --config next-sitemap.config.js && ls -la out/",
+    "postbuild": "next-sitemap --config next-sitemap.config.js && ls -la out/ && node scripts/verify-pages.js",
+    "verify-pages": "node scripts/verify-pages.js",
     "start": "next start",
     "lint": "next lint"
   },

@@ -1,8 +1,16 @@
 const withBundleAnalyzer = require('@next/bundle-analyzer')({enabled: process.env.ANALYZE === 'true'});
 
 /** @type {import('next').NextConfig} */
+// Debug function to log build information
+const logBuildInfo = (phase, info) => {
+  console.log(`[Build Debug] ${phase}:`, info);
+};
+
 const nextConfig = {
   output: 'export',
+  onBuildStart: () => {
+    logBuildInfo('Build Start', 'Initiating static page generation');
+  },
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -18,7 +26,13 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  webpack: (config) => {
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    logBuildInfo('Webpack Configuration', {
+      buildId,
+      dev,
+      isServer,
+      pages: Object.keys(defaultLoaders)
+    });
     config.resolve.alias = {
       ...config.resolve.alias,
       'fs': false,

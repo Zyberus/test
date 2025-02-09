@@ -19,7 +19,9 @@ const links = [
 ]
 
 export function Header() {
+  console.log('[Header] Component mounting...')
   const pathname = usePathname()
+  console.log('[Header] Current pathname:', pathname)
   const [isOpen, setIsOpen] = useState(false)
   const [isAppsOpen, setIsAppsOpen] = useState(false)
   const { scrollY } = useScroll()
@@ -31,20 +33,31 @@ export function Header() {
   )
 
   useEffect(() => {
+    console.log('[Header] Pathname changed, resetting states')
     setIsOpen(false)
     setIsAppsOpen(false)
   }, [pathname])
 
   useEffect(() => {
+    console.log('[Header] Mobile menu state changed:', isOpen)
     if (isOpen) {
       document.body.style.overflow = 'hidden'
+      console.log('[Header] Body overflow set to hidden')
     } else {
       document.body.style.overflow = 'unset'
+      console.log('[Header] Body overflow set to unset')
     }
     return () => {
       document.body.style.overflow = 'unset'
+      console.log('[Header] Cleanup: Body overflow reset to unset')
     }
   }, [isOpen])
+
+  useEffect(() => {
+    console.log('[Header] Apps dropdown state changed:', isAppsOpen)
+  }, [isAppsOpen])
+
+  console.log('[Header] Rendering with states:', { isOpen, isAppsOpen, pathname })
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
