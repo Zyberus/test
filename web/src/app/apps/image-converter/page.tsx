@@ -2,8 +2,10 @@
 
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
-import { Metadata } from 'next';
 import Dropzone from '@/components/apps/image-converter/dropzone';
+
+// Force static generation
+export const dynamic = 'force-static';
 
 const ParticleBackground = dynamic(() => import('@/components/particle-background'), {
   ssr: false
