@@ -1,72 +1,15 @@
-# New Era Website
-
-A modern website built with Next.js, featuring an admin panel with analytics and visitor tracking.
-
-## Features
-
-- Modern, responsive design with Tailwind CSS
-- Secure admin panel with JWT authentication
-- Visitor analytics and tracking
-- Contact form functionality
-- MongoDB integration for data storage
-- Production-ready with security headers
-
-## Prerequisites
-
-- Node.js 18.x or later
-- MongoDB database
-- npm or yarn package manager
-
-## Getting Started
-
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Copy `.env.example` to `.env` and fill in your environment variables:
-   ```bash
-   cp .env.example .env
-   ```
-4. Run the development server:
-   ```bash
-   npm run dev
-   ```
-5. Open [http://localhost:3000](http://localhost:3000) in your browser
-
-## Environment Variables
-
-Create a `.env` file in the root directory with the following variables:
-
-```env
-MONGODB_URI=your_mongodb_uri
-ADMIN_USERNAME=your_admin_username
-ADMIN_PASSWORD=your_admin_password
-JWT_SECRET=your_jwt_secret
-```
-
-## Deployment
-
-This project is configured for deployment on Netlify:
-
-1. Push your code to GitHub
-2. Connect your GitHub repository to Netlify
-3. Configure environment variables in Netlify's dashboard
-4. Deploy!
-
-However, you can also deploy using the following alternative method:
-
 # App-Nest Web
 
 Modern web application built with Next.js, MongoDB, and Tailwind CSS.
 
 ## Features
 
-- Modern UI with Tailwind CSS
+- Modern, responsive design with Tailwind CSS
+- Secure admin panel with JWT authentication
+- Visitor analytics and tracking
 - Contact form with MongoDB integration
 - Server-side rendering with Next.js
 - Dark mode support
-- Responsive design
 
 ## Prerequisites
 
@@ -78,7 +21,7 @@ Modern web application built with Next.js, MongoDB, and Tailwind CSS.
 
 1. Clone the repository
 ```bash
-git clone https://github.com/your-username/web.git
+git clone https://bitbucket.org/zyberus/app-nest.git
 cd web
 ```
 
@@ -95,6 +38,9 @@ cp .env.example .env.local
 4. Update the environment variables in `.env.local`:
 - `MONGODB_URI`: Your MongoDB connection string with database name
 - `NEXT_PUBLIC_GEMINI_API_KEY`: Your Gemini API key
+- `ADMIN_USERNAME`: Your admin username
+- `ADMIN_PASSWORD`: Your admin password
+- `JWT_SECRET`: Your JWT secret key
 
 5. Run the development server
 ```bash
@@ -103,13 +49,16 @@ npm run dev
 
 ## Deployment to Netlify
 
-1. Push your code to GitHub
+1. Push your code to Bitbucket
 
 2. Connect your repository to Netlify
 
 3. Add the following environment variables in Netlify:
    - `MONGODB_URI`
    - `NEXT_PUBLIC_GEMINI_API_KEY`
+   - `ADMIN_USERNAME`
+   - `ADMIN_PASSWORD`
+   - `JWT_SECRET`
    - `NODE_ENV=production`
 
 4. Deploy settings:
@@ -124,6 +73,7 @@ npm run dev
 - The site uses server-side rendering, so the Netlify Edge Functions are required
 - CORS is configured to allow all origins for the API routes
 - The contact form submissions are stored in the 'contact' collection
+- Admin panel is secured with JWT authentication
 
 ## Built With
 
