@@ -46,20 +46,23 @@ const nextConfig = {
       '/apps/image-converter': { page: '/apps/image-converter' },
       '/404': { page: '/404' },
       '/not-found': { page: '/not-found' },
+      '/api/chat': { page: '/api/chat' },
+      '/api/contact': { page: '/api/contact' },
+      '/robots.txt': { page: '/robots.txt' },
+      '/sitemap.xml': { page: '/sitemap.xml' }
     };
   },
   // Ensure static generation works correctly
-  generateStaticParams: async () => {
-    return {
-      '/apps/chat': {},
-      '/apps/image-converter': {},
-    };
-  },
-  // Disable dynamic routes in production
   experimental: {
     appDir: true,
     disableOptimizedLoading: true,
+    workerThreads: true,
+    cpus: 4
   },
+  // Increase memory limit for build
+  env: {
+    NODE_OPTIONS: '--max-old-space-size=4096'
+  }
 };
 
 module.exports = withBundleAnalyzer(nextConfig);

@@ -1,5 +1,5 @@
 [build]
-  command = "npm run clean:build && NODE_ENV=production npm run build"
+  command = "NODE_OPTIONS='--max-old-space-size=4096' npm run clean:build && NODE_ENV=production npm run build"
   publish = "out"
   ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ./src/"
 
@@ -7,6 +7,7 @@
   NODE_ENV = "production"
   NEXT_TELEMETRY_DISABLED = "1"
   NEXT_PUBLIC_URL = "https://app-nest.com"
+  NODE_VERSION = "18.17.0"
 
 [build.processing]
   skip_processing = false
@@ -43,12 +44,12 @@
 
 # Handle specific routes first
 [[redirects]]
-  from = "/apps/chat/*"
+  from = "/apps/chat"
   to = "/apps/chat/index.html"
   status = 200
 
 [[redirects]]
-  from = "/apps/image-converter/*"
+  from = "/apps/image-converter"
   to = "/apps/image-converter/index.html"
   status = 200
 
@@ -70,6 +71,12 @@
 [[redirects]]
   from = "/portfolio"
   to = "/portfolio/index.html"
+  status = 200
+
+# Handle API routes
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
   status = 200
 
 # Handle 404
